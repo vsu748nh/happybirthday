@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thiệp Sinh Nhật Hoàng Gia & Cổ Tích Lãng Mạn</title>
   
-  <!-- Fonts -->
+  <!-- Google Fonts required by spec -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Dancing+Script:wght@600;700&family=Mali:ital,wght@0,500;0,600;0,700;1,600&family=Itim&family=Fredoka:wght@600;700&family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,9 +18,15 @@
       theme: {
         extend: {
           fontFamily: {
-            heading: ['"Cinzel Decorative"', 'serif'],
-            handwritten: ['"Dancing Script"', 'cursive'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            hero: ['"Cormorant Garamond"', '"Playfair Display"', 'serif'],
+            heading: ['Poppins', 'sans-serif'],
+            body: ['Poppins', 'sans-serif'],
+            btn: ['Poppins', 'sans-serif'],
+            caption: ['"Space Mono"', 'monospace'],
+            handwritten: ['"Dancing Script"', '"Mali"', 'cursive'],
+            mono: ['"Space Mono"', 'monospace'],
+            playful: ['"Mali"', '"Itim"', '"Fredoka"', 'cursive', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
           },
           colors: {
             royalPink: '#FF80AB',
@@ -31,8 +37,10 @@
           animation: {
             'float': 'float 6s ease-in-out infinite',
             'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'spin-slow': 'spin 12s linear infinite',
+            'spin-slow': 'spin 14s linear infinite',
             'glow': 'glow 2s ease-in-out infinite alternate',
+            'flicker': 'flicker 1.5s ease-in-out infinite alternate',
+            'aurora': 'aurora 10s ease infinite',
           },
           keyframes: {
             float: {
@@ -42,6 +50,15 @@
             glow: {
               '0%': { filter: 'drop-shadow(0 0 5px rgba(255,215,0,0.6))' },
               '100%': { filter: 'drop-shadow(0 0 20px rgba(255,215,0,1))' },
+            },
+            flicker: {
+              '0%': { transform: 'scale(1) rotate(-2deg)', opacity: '0.9' },
+              '50%': { transform: 'scale(1.15) rotate(2deg)', opacity: '1' },
+              '100%': { transform: 'scale(0.95) rotate(-1deg)', opacity: '0.85' },
+            },
+            aurora: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
             }
           }
         }
@@ -56,7 +73,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
-    /* Custom Scrollbar & Animations */
+    /* Custom Scrollbar & Aesthetics */
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -77,7 +94,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
     .glass-card-light {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 128, 171, 0.3);
@@ -93,154 +110,237 @@
       -webkit-text-fill-color: transparent;
     }
     .polaroid-shadow {
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.4), 0 8px 12px -6px rgba(0, 0, 0, 0.3);
+    }
+    /* Candle flame animation */
+    .flame-glow {
+      box-shadow: 0 0 12px #ff9d00, 0 0 24px #ff5500, 0 0 36px #ff0000;
+    }
+
+    /* Playful Castle Variation Styles */
+    .dot-grid {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(#32302c 1px, transparent 0);
+      background-size: 24px 24px;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .sticker-card {
+      background: white;
+      color: #32302c;
+      border: 3px solid #32302c;
+      padding: 1.25rem;
+      border-radius: 8px;
+      box-shadow: 6px 6px 0px rgba(50, 48, 44, 0.25);
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sticker-card:hover {
+      transform: translateY(-2px) rotate(0deg) !important;
+      box-shadow: 8px 8px 0px rgba(50, 48, 44, 0.4);
+    }
+    .sticker-card:nth-child(odd) { transform: rotate(-1deg); }
+    .sticker-card:nth-child(even) { transform: rotate(1.5deg); }
+
+    .emoji-btn {
+      width: 42px;
+      height: 42px;
+      border: 2px solid #32302c;
+      border-radius: 10px;
+      background: white;
+      cursor: pointer;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .emoji-btn.active {
+      background: #ffde59;
+      box-shadow: 3px 3px 0px #32302c;
+      transform: translate(-1px, -1px);
+    }
+
+    .submit-btn {
+      background: #ff7eb6;
+      color: white;
+      border: 3px solid #32302c;
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 5px 5px 0px #32302c;
+      transition: all 0.15s ease;
+    }
+    .submit-btn:hover {
+      background: #e85a9c;
+    }
+    .submit-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #32302c;
+    }
+
+    .pill-btn {
+      background: #32302c;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pill-btn:hover {
+      background: #45423d;
     }
   </style>
 </head>
-<body class="bg-[#0D021A] text-white antialiased selection:bg-pink-500 selection:text-white">
+<body class="bg-[#fffeef] text-[#32302c] antialiased font-body selection:bg-yellow-400 selection:text-[#32302c]">
   <div id="root"></div>
 
-  <!-- Main Standalone Application Script compiled by Babel -->
+  <!-- Main Standalone React Script compiled by Babel -->
   <script type="text/babel">
     const { useState, useEffect, useRef, useMemo } = React;
 
-    // --- DEFAULT CONFIGURATION ---
+    // --- DEFAULT CONFIGURATION DATA ---
     const defaultBirthdayConfig = {
-      recipientName: "My Princess",
-      senderName: "Your Forever Love",
-      birthdayDate: "07 August 2026",
+      headerTitle: "Royal Birthday",
+      headerIcon: "👑",
+      recipientName: "Công Chúa Ngọt Ngào",
+      senderName: "Người Luôn Yêu Thương Em",
+      birthdayDate: "07 Tháng 8, 2026",
       ageNumber: 20,
-      ageTitle: "Tuổi 20 Rạng Rỡ & Ngọt Ngào",
+      ageTitle: "Tuổi 20 Rạng Rỡ & Cổ Tích",
       theme: {
         primaryColor: "#FF80AB",
         secondaryColor: "#D1C4E9",
-        accentGold: "#FFD700",
-        fontFamilyHeading: "'Cinzel Decorative', serif",
-        fontFamilyHandwritten: "'Dancing Script', cursive",
-        fontFamilyBody: "'Plus Jakarta Sans', sans-serif",
+        accentGold: "#FFD700"
       },
       letter: {
-        title: "To My Dearest Princess & Soulmate",
+        title: "Gửi Công Chúa Của Lòng Anh",
         paragraphs: [
-          "Happy Birthday, my love! On this magical day, August 7th, 2026, the stars aligned to bring the most beautiful soul into my world.",
-          "Every single moment spent with you feels like stepping straight into a dreamy fairytale. Your laughter is my favorite song, your smile is my brightest light, and your gentle heart is my happiest home.",
-          "Thank you for filling my days with warmth, endless joy, and magical memories that I will treasure forever. No matter how many birthdays pass, my love for you grows deeper with every beat of my heart.",
-          "May this new chapter bring you infinite happiness, magical dreams fulfilled, laughter that warms your soul, and all the sweetness you truly deserve."
+          "Chúc mừng sinh nhật em yêu! Vào ngày 7 tháng 8 đặc biệt này, cả bầu trời sao như tỏa sáng rạng rỡ nhất để chào đón thiên thần tuyệt vời nhất xuất hiện trong cuộc đời anh.",
+          "Mỗi khoảnh khắc ở bên em đều giống như một trang sách cổ tích ngọt ngào. Nụ cười rạng rỡ của em là giai điệu êm ái nhất, ánh mắt em là ngôi sao dẫn đường, và trái tim dịu dàng của em chính là bình yên anh luôn tìm kiếm.",
+          "Cảm ơn em đã mang đến cho anh vô vàn niềm vui, những kỷ niệm lấp lánh và tình yêu chân thành nhất. Dù thời gian có trôi qua bao nhiêu mùa sinh nhật, tình yêu anh dành cho em vẫn mãi vẹn toàn và sâu đậm theo năm tháng.",
+          "Cầu chúc cho tuổi mới của em tràn ngập tiếng cười hạnh phúc, mọi ước mơ ngọt ngào đều trở thành hiện thực, và mỗi ngày trôi qua đều đong đầy yêu thương rạng rỡ!"
         ],
-        closing: "With all my heart and eternal love,",
+        closing: "Gửi trọn yêu thương và tình yêu vĩnh cửu,",
         signature: "Yours Forever & Always ❤️",
-        typewriterSpeedMs: 38,
+        typewriterSpeedMs: 35
       },
       playlist: [
+        {
+          id: "track-in-love",
+          title: "In Love",
+          artist: "Giai Điệu Tình Yêu",
+          cover: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80",
+          audioUrl: "https://www.dropbox.com/scl/fi/qukliqadgw1m4p5w2wkg8/In-Love.mp3?rlkey=5xxcuhgknbkp4eukj92brqqw1&st=zysb01ix&dl=0",
+          duration: "03:45",
+          lyricsQuote: "Như những vì sao đêm, tình yêu em luôn chiếu sáng tâm hồn anh."
+        },
         {
           id: "track-1",
           title: "Fairytale Waltz of Love",
           artist: "Magical Symphony",
-          cover: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80",
+          cover: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80",
           audioUrl: "synth-romantic-waltz",
           duration: "03:45",
-          lyricsQuote: "Like stars in the night sky, your love shines forever bright."
+          lyricsQuote: "Trong mọi vũ trụ cổ tích, anh vẫn sẽ luôn chọn em."
         },
         {
           id: "track-2",
-          title: "Golden Hogwarts Stars",
-          artist: "Dreamy Serenade",
-          cover: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80",
+          title: "Golden Starlight Serenade",
+          artist: "Dreamy Orchestra",
+          cover: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80",
           audioUrl: "synth-starlight-lullaby",
           duration: "04:12",
-          lyricsQuote: "In every magical universe, I would choose you again and again."
-        },
-        {
-          id: "track-3",
-          title: "Forever Princess Symphony",
-          artist: "Enchanted Strings",
-          cover: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80",
-          audioUrl: "synth-princess-theme",
-          duration: "03:30",
-          lyricsQuote: "Thank you for existing and making every day a fairytale."
+          lyricsQuote: "Cảm ơn em vì đã xuất hiện và biến mỗi ngày thành huyền thoại."
         }
       ],
       photos: [
         {
           id: "p1",
-          title: "Under the Magical Stars",
-          date: "Our Unforgettable Night",
+          title: "Dưới Bầu Trời Sao Lấp Lánh",
+          date: "Đêm Kỷ Niệm Kỳ Diệu",
           image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80",
-          caption: "When I looked into your eyes, I saw my entire future shining back at me.",
+          caption: "Khi nhìn vào mắt em, anh thấy cả tương lai ngọt ngào tỏa sáng.",
           rotation: -3,
-          location: "Starlight Garden",
-          tags: ["Fairytale", "Magical", "Memories"]
+          location: "Khu Vườn Ngàn Sao",
+          tags: ["Cổ Tích", "Lãng Mạn", "Kỷ Niệm"]
         },
         {
           id: "p2",
-          title: "Sweet Laughs & Coffee",
-          date: "Our Favorite Cozy Afternoon",
+          title: "Nụ Cười Rạng Rỡ Ấm Áp",
+          date: "Chiều Cafe Ngọt Ngào",
           image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80",
-          caption: "Your smile can instantly illuminate the darkest days.",
+          caption: "Nụ cười của em có thể xua tan mọi mệt mỏi trong cuộc sống.",
           rotation: 2.5,
-          location: "Cozy Café",
-          tags: ["Laughter", "Joy", "Together"]
+          location: "Tiệm Cà Phê Hoàng Gia",
+          tags: ["Nụ Cười", "Hạnh Phúc"]
         },
         {
           id: "p3",
-          title: "Hand in Hand Forever",
-          date: "Romantic Walk",
+          title: "Nắm Tay Nhau Đi Khắp Thế Giới",
+          date: "Buổi Chiều Hoàng Hôn",
           image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80",
-          caption: "Holding your hand is my favorite place in the whole wide world.",
+          caption: "Nắm lấy tay em là khoảnh khắc bình yên nhất trong lòng anh.",
           rotation: -2,
-          location: "Sunset Promenade",
-          tags: ["Romance", "Love", "Forever"]
+          location: "Bờ Hồ Cổ Tích",
+          tags: ["Tình Yêu", "Bình Yên"]
         },
         {
           id: "p4",
-          title: "Princess Moment",
-          date: "Celebration Day",
+          title: "Khoảnh Khắc Công Chúa",
+          date: "Ngày Lễ Đặc Biệt",
           image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
-          caption: "You will always be the crowned princess of my heart.",
+          caption: "Em mãi mãi là nàng công xuyến ngự trị trong vương quốc trái tim anh.",
           rotation: 3,
-          location: "Fairytale Kingdom",
-          tags: ["Princess", "Golden", "Dream"]
+          location: "Lâu Đài Hoa Hồng",
+          tags: ["Princess", "Sparkle"]
         },
         {
           id: "p5",
-          title: "Sparks & Fireworks",
-          date: "New Year Wish",
+          title: "Ánh Pháo Hoa Rực Rỡ",
+          date: "Đêm Giao Thừa Lãng Mạn",
           image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80",
-          caption: "Every firework in the sky pales in comparison to your inner glow.",
+          caption: "Mọi tia pháo hoa trên bầu trời cũng không lung linh bằng ánh mắt em.",
           rotation: -1.5,
-          location: "Celebration Tower",
-          tags: ["Sparkles", "Celebration"]
+          location: "Quảng Trường Hoàng Gia",
+          tags: ["Pháo Hoa", "Rạng Rỡ"]
         },
         {
           id: "p6",
-          title: "A Promise of Always",
-          date: "Unconditional Love",
+          title: "Lời Hứa Vĩnh Cửu",
+          date: "Mãi Mãi Bên Nhau",
           image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=80",
-          caption: "I promise to cherish you, protect your smile, and hold you close forever.",
+          caption: "Anh hứa sẽ luôn trân trọng, bảo vệ nụ cười em mỗi ngày.",
           rotation: 2,
-          location: "Rose Castle",
-          tags: ["Promise", "Eternity"]
+          location: "Thánh Đường Tình Yêu",
+          tags: ["Lời Hứa", "Vĩnh Cửu"]
         }
-      ],
-      loveMeterMessages: [
-        "Analyzing Heartbeat Resonance...",
-        "Scanning Sweet Smiles...",
-        "Measuring Hug Comfort Level...",
-        "Counting Infinite Kisses...",
-        "Calculating Soulmate Synchronicity...",
-        "WARNING: Love levels exceeding safe thresholds!",
-        "CRITICAL: Heart storage overload! ❤️",
-        "9999999999% LOVE OVERFLOW ATTAINED!"
       ],
       finalSurprise: {
         portraitUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80",
-        quoteTitle: "You Are My Happily Ever After",
-        quoteBody: "If I had a single flower for every time I thought of you, I could walk through my garden forever. Happy Birthday, my beautiful princess!",
-        specialPromise: "I promise to love you, cherish you, and bring magic into your life every single day."
+        quoteTitle: "Em Là Hạnh Phúc Mãi Mãi Của Anh",
+        quoteBody: "Nếu anh có một bông hoa cho mỗi lần nghĩ về em, anh có thể đi dạo trong khu vườn yêu thương vĩnh cữu. Chúc mừng sinh nhật Công Chúa của anh!",
+        specialPromise: "Anh hứa sẽ luôn đem lại tiếng cười, phép màu và tình yêu đong đầy cho em mỗi ngày."
       }
     };
 
-    // --- LUCIDE SVG ICONS COMPONENT ---
+    // Initial default wishes wall
+    const initialWishes = [
+      { id: 1, sender: "Chàng Hoàng Tử", message: "Chúc Công Chúa xinh đẹp tuổi mới luôn rạng rỡ, hạnh phúc và tràn ngập tiếng cười!", icon: "💖", date: "Hôm nay" },
+      { id: 2, sender: "Bà Tiên Cổ Tích", message: "Hô biến cho mọi ước mơ của em đều trở thành hiện thực rực rỡ nhất!", icon: "✨", date: "Hôm nay" },
+      { id: 3, sender: "Những Vì Sao Đêm", message: "Luôn luôn tỏa sáng và là cô gái đáng yêu nhất vương quốc nhé!", icon: "👑", date: "Hôm nay" }
+    ];
+
+    // --- SVG ICONS COMPONENT ---
     const LucideIcons = {
       Heart: <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
       Key: <path d="m21 2-2 2m-1.5 1.5L14 9.5a5 5 0 1 0 2 2l3.5-3.5M19 5l2 2" />,
@@ -255,32 +355,18 @@
       Camera: <g><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></g>,
       Calendar: <g><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></g>,
       MapPin: <g><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></g>,
-      Award: <g><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></g>,
-      Check: <polyline points="20 6 9 17 4 12" />,
       Settings: <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />,
-      Moon: <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />,
-      Sun: <g><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M18.66 5.34l-1.41 1.41"/></g>,
-      RefreshCw: <g><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></g>,
-      ChevronLeft: <polyline points="15 18 9 12 15 6" />,
-      ChevronRight: <polyline points="9 18 15 12 9 6" />,
       Download: <g><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></g>,
+      Upload: <g><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></g>,
       Plus: <path d="M12 5v14M5 12h14" />,
       Trash2: <g><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></g>,
       Save: <g><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></g>,
-      Share2: <g><circle cx="18" cy="5" r="3"/><path d="M6 12 18 5M6 12l12 7"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/></g>,
       Send: <g><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></g>,
-      Quote: <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h3c0 3-1 6-4 8zM15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h3c0 3-1 6-4 8z"/>,
-      Disc: <g><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></g>,
-      SkipBack: <g><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></g>,
       SkipForward: <g><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></g>,
-      Star: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />,
       Gift: <g><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></g>,
-      Coffee: <g><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></g>,
-      Plane: <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.2c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z" />,
-      Info: <g><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></g>,
+      MessageCircle: <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
       X: <g><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></g>,
-      Edit3: <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />,
-      Image: <g><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></g>
+      RefreshCw: <g><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></g>
     };
 
     function Icon({ name, className = "w-5 h-5", size, ...props }) {
@@ -304,13 +390,12 @@
       );
     }
 
-    // --- WEB AUDIO SYNTHESIZER ENGINE ---
+    // --- WEB AUDIO SYNTHESIZER ---
     class AudioSynthEngine {
       constructor() {
         this.ctx = null;
         this.isPlaying = false;
         this.timer = null;
-        this.currentTrack = null;
       }
 
       initCtx() {
@@ -330,7 +415,6 @@
           const gain = this.ctx.createGain();
           osc.type = type;
           osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-          
           gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
 
@@ -344,7 +428,7 @@
 
       playTypewriterClick() {
         this.initCtx();
-        this.playNote(800 + Math.random() * 200, 0.04, 'triangle', 0.05);
+        this.playNote(800 + Math.random() * 200, 0.04, 'triangle', 0.04);
       }
 
       playMagicSparkle() {
@@ -357,11 +441,20 @@
         });
       }
 
+      playBlowOutSound() {
+        this.initCtx();
+        const notes = [400, 300, 200, 150];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => {
+            this.playNote(freq, 0.2, 'sine', 0.08);
+          }, idx * 50);
+        });
+      }
+
       startMelody(presetName) {
         this.stop();
         this.initCtx();
         this.isPlaying = true;
-        this.currentTrack = presetName;
 
         const melodies = {
           'synth-romantic-waltz': [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 329.63, 293.66],
@@ -392,7 +485,7 @@
 
     const audioSynth = new AudioSynthEngine();
 
-    // --- PARTICLE BACKGROUND CANVAS ---
+    // --- CANVAS PARTICLES OVERLAY ---
     function ParticleCanvas() {
       const canvasRef = useRef(null);
 
@@ -459,31 +552,42 @@
     }
 
     // --- HEADER NAVIGATION ---
-    function HeaderNav({ currentScene, totalScenes, onSelectScene, isDarkMode, onToggleDarkMode, hasGoldenKey, onOpenEditor }) {
-      return (
-        <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between glass-card border-b border-pink-500/20">
-          <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-400 p-[2px]">
-              <div className="w-full h-full rounded-full bg-purple-950 flex items-center justify-center text-pink-300 font-bold text-sm">
-                👑
-              </div>
-            </div>
-            <span className="font-heading text-sm md:text-base font-bold gold-gradient-text tracking-wide hidden sm:inline">
-              Royal Birthday
-            </span>
-          </div>
+    function HeaderNav({ currentScene, totalScenes, onSelectScene, hasGoldenKey, onOpenEditor, config }) {
+      const sceneLabels = [
+        "Mở Đầu", "Lâu Đài", "Trò Chơi", "Rương Báu", 
+        "Thư Tình", "Âm Nhạc", "Album Ảnh", "Bánh Sinh Nhật", 
+        "Kết Thúc", "Bức Tường Lời Chúc"
+      ];
 
-          {/* Quick Scene Buttons */}
-          <div className="flex items-center space-x-1 sm:space-x-2 bg-purple-950/60 p-1 rounded-full border border-pink-500/30">
+      const title = (config && config.headerTitle) || "Royal Birthday";
+      const icon = (config && config.headerIcon) || "👑";
+
+      return (
+        <header className="fixed top-0 left-0 right-0 z-50 px-3 md:px-6 py-2.5 flex items-center justify-between bg-white/95 border-b-3 border-[#32302c] shadow-md backdrop-blur-md">
+          <button 
+            onClick={onOpenEditor}
+            title="Bấm để chỉnh sửa Icon & Tiêu đề Header" 
+            className="flex items-center space-x-2 md:space-x-3 hover:opacity-90 transition-all text-left cursor-pointer group"
+          >
+            <div className="w-9 h-9 rounded-full bg-[#ffde59] border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c] flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
+              {icon}
+            </div>
+            <span className="font-playful text-xl sm:text-2xl font-bold text-[#e85a9c] tracking-wider whitespace-nowrap">
+              {title}
+            </span>
+          </button>
+
+          {/* Scene Selector Dots */}
+          <div className="flex items-center space-x-1 sm:space-x-1.5 bg-[#fffeef] p-1 rounded-full border-2 border-[#32302c] overflow-x-auto max-w-[200px] sm:max-w-none shadow-inner">
             {Array.from({ length: totalScenes }).map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => onSelectScene(idx)}
-                title={`Cảnh ${idx + 1}`}
-                className={`w-7 h-7 rounded-full text-xs font-semibold transition-all duration-300 flex items-center justify-center ${
+                title={sceneLabels[idx] || `Cảnh ${idx + 1}`}
+                className={`w-7 h-7 rounded-full text-xs transition-all duration-200 flex items-center justify-center font-bold ${
                   currentScene === idx
-                    ? 'bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 shadow-lg scale-110 font-bold'
-                    : 'text-purple-300 hover:text-white hover:bg-white/10'
+                    ? 'bg-[#ffde59] text-[#32302c] border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c] scale-110 font-bold'
+                    : 'text-[#32302c]/70 hover:text-[#32302c] hover:bg-yellow-200/50'
                 }`}
               >
                 {idx === 0 ? '✨' : idx}
@@ -493,25 +597,26 @@
 
           <div className="flex items-center space-x-2">
             {hasGoldenKey && (
-              <div className="flex items-center space-x-1 bg-yellow-500/20 px-2 py-1 rounded-full border border-yellow-400/50 text-xs text-yellow-300 animate-pulse">
+              <div className="flex items-center space-x-1 bg-[#ffde59] px-2.5 py-1 rounded-full border-2 border-[#32302c] text-xs text-[#32302c] font-bold shadow-[2px_2px_0px_#32302c] animate-bounce">
                 <Icon name="Key" className="w-3.5 h-3.5" />
-                <span className="hidden md:inline font-medium">Chìa Khóa Vàng</span>
+                <span className="hidden md:inline">Chìa Khóa Vàng</span>
               </div>
             )}
 
             <button
               onClick={onOpenEditor}
-              className="p-2 rounded-full bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/40 transition-all"
-              title="Chỉnh Sửa Thiệp"
+              className="px-3 py-1.5 rounded-full bg-white hover:bg-yellow-100 text-[#32302c] border-2 border-[#32302c] transition-all text-xs font-bold flex items-center space-x-1.5 shadow-[2px_2px_0px_#32302c]"
+              title="Chỉnh Sửa Tất Cả Nội Dung Thiệp"
             >
-              <Icon name="Settings" className="w-4 h-4" />
+              <Icon name="Settings" className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Chỉnh Sửa Thiệp</span>
             </button>
           </div>
         </header>
       );
     }
 
-    // --- SCENE 0: LOADING SCREEN ---
+    // --- SCENE 0: LOADING (Playful Castle Variation - Vibrant Gold Theme) ---
     function LoadingScreen({ onComplete, config }) {
       const [progress, setProgress] = useState(0);
 
@@ -524,65 +629,78 @@
             }
             return prev + 2;
           });
-        }, 40);
+        }, 35);
 
         return () => clearInterval(timer);
       }, []);
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center relative z-10">
-          <div className="relative mb-8">
-            <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-400 p-1 animate-spin-slow">
-              <div className="w-full h-full rounded-full bg-purple-950 flex items-center justify-center">
-                <span className="text-4xl">👑</span>
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center relative z-10 bg-[#ffde59] text-[#32302c] overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="bg-white border-3 border-[#32302c] p-8 sm:p-10 rounded-3xl shadow-[8px_8px_0px_#32302c] max-w-lg w-full relative z-10 flex flex-col items-center">
+            <div className="relative mb-6">
+              <div className="w-24 h-24 rounded-full bg-[#ffde59] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center">
+                <span className="text-4xl animate-bounce">👑</span>
               </div>
             </div>
-            <div className="absolute inset-0 rounded-full animate-ping bg-pink-500/20 -z-10" />
+
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold mb-1">
+              ✨ ROYAL PARTY CELEBRATION ✨
+            </span>
+            <h1 className="font-playful text-5xl sm:text-6xl font-bold text-[#32302c] mb-2 leading-none">
+              {config.recipientName}
+            </h1>
+            <p className="font-mono font-bold text-sm text-[#32302c]/80 mb-6 uppercase tracking-wider bg-yellow-200 px-3 py-1 rounded-full border border-[#32302c]">
+              {config.ageTitle}
+            </p>
+
+            <div className="w-full bg-[#fffeef] rounded-full h-5 border-2 border-[#32302c] overflow-hidden mb-3 p-0.5 shadow-inner">
+              <div
+                className="h-full bg-[#ff7eb6] rounded-full transition-all duration-200 border-r-2 border-[#32302c]"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+
+            <p className="text-xs text-[#32302c] font-mono font-bold mb-6 tracking-wide">
+              Đang mở cổng vương quốc cổ tích... {progress}%
+            </p>
+
+            {progress === 100 && (
+              <button
+                onClick={() => {
+                  audioSynth.playMagicSparkle();
+                  onComplete();
+                }}
+                className="submit-btn text-lg animate-bounce flex items-center justify-center space-x-2"
+              >
+                <span>Mở Cổng Hoàng Gia</span>
+                <span>✨</span>
+              </button>
+            )}
           </div>
-
-          <h1 className="font-heading text-2xl md:text-4xl font-bold gold-gradient-text mb-2">
-            {config.recipientName}
-          </h1>
-          <p className="font-handwritten text-xl text-pink-300 mb-8">
-            {config.ageTitle}
-          </p>
-
-          <div className="w-full max-w-md bg-purple-950/80 rounded-full h-3 border border-pink-500/30 overflow-hidden mb-4 p-[2px]">
-            <div
-              className="h-full bg-gradient-to-r from-pink-500 to-yellow-400 rounded-full transition-all duration-200 shadow-glow"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-
-          <p className="text-xs text-purple-300 mb-8 font-mono">
-            Đang chuẩn bị vương quốc cổ tích... {progress}%
-          </p>
-
-          {progress === 100 && (
-            <button
-              onClick={() => {
-                audioSynth.playMagicSparkle();
-                onComplete();
-              }}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all animate-bounce"
-            >
-              Mở Cổng Hoàng Gia ✨
-            </button>
-          )}
         </div>
       );
     }
 
-    // --- SCENE 1: CASTLE ENTRANCE ---
+    // --- SCENE 1: CASTLE ENTRANCE (Playful Castle Variation - Vibrant Gold Theme) ---
     function CastleEntrance({ onNext }) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center">
-          <div className="max-w-2xl glass-card p-8 md:p-12 rounded-3xl border border-pink-500/30 shadow-2xl relative overflow-hidden">
-            <div className="text-6xl mb-6 animate-float">🏰</div>
-            <h2 className="font-heading text-3xl md:text-5xl font-bold gold-gradient-text mb-4">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="max-w-2xl bg-white p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
+            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#ffde59] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center text-5xl animate-bounce">
+              🏰
+            </div>
+            
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              WELCOME TO THE CASTLE
+            </span>
+            <h2 className="font-playful text-5xl sm:text-6xl font-bold text-[#32302c] mb-4 leading-tight">
               Vương Quốc Hoàng Gia
             </h2>
-            <p className="text-purple-200 text-base md:text-lg mb-8 leading-relaxed">
+            <p className="font-body font-medium text-[#32302c]/90 text-base sm:text-lg mb-8 leading-relaxed max-w-lg mx-auto">
               Chào mừng Công Chúa bước vào lâu đài cổ tích! Nơi đây cất giữ những kỷ niệm ngọt ngào, những giai điệu du dương và chìa khóa dẫn tới kho báu bí mật.
             </p>
 
@@ -591,17 +709,17 @@
                 audioSynth.playMagicSparkle();
                 onNext();
               }}
-              className="px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center space-x-2 mx-auto"
+              className="submit-btn text-lg flex items-center justify-center space-x-2 mx-auto"
             >
               <span>Thử Thách Tìm Chìa Khóa Vàng</span>
-              <Icon name="Sparkles" className="w-5 h-5" />
+              <span>✨</span>
             </button>
           </div>
         </div>
       );
     }
 
-    // --- SCENE 2: HEART QUEST GAME ---
+    // --- SCENE 2: MINI GAME (Playful Castle Variation - Vibrant Gold Theme) ---
     function HeartQuestGame({ onCompleteKey }) {
       const [foundHearts, setFoundHearts] = useState([]);
       const totalHearts = 5;
@@ -617,24 +735,28 @@
       const handleCollectHeart = (id) => {
         if (!foundHearts.includes(id)) {
           audioSynth.playMagicSparkle();
-          const updated = [...foundHearts, id];
-          setFoundHearts(updated);
+          setFoundHearts(prev => [...prev, id]);
         }
       };
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center relative">
-          <div className="mb-6">
-            <h2 className="font-heading text-2xl md:text-4xl font-bold gold-gradient-text mb-2">
-              Nhiệm Vụ Thu Thập Trái Tim Vàng
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center relative bg-[#ffde59] text-[#32302c] overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="mb-4 relative z-10">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              MINI GAME QUEST
+            </span>
+            <h2 className="font-playful text-4xl sm:text-5xl font-bold text-[#32302c] mb-2 leading-tight">
+              Thu Thập Trái Tim Vàng
             </h2>
-            <p className="text-pink-300 text-sm md:text-base">
-              Tìm đủ {totalHearts} trái tim ẩn giấu để ghép lại Chìa Khóa Vàng ({foundHearts.length}/{totalHearts})
-            </p>
+            <div className="inline-block bg-white border-2 border-[#32302c] px-4 py-1.5 rounded-full font-mono text-xs font-bold shadow-[3px_3px_0px_#32302c]">
+              Tìm đủ {totalHearts} trái tim ẩn giấu ({foundHearts.length}/{totalHearts})
+            </div>
           </div>
 
-          <div className="w-full max-w-3xl h-[420px] glass-card rounded-3xl relative overflow-hidden border border-pink-500/30 p-4">
-            <div className="absolute inset-0 bg-gradient-to-b from-purple-950/40 to-pink-950/40 pointer-events-none" />
+          <div className="w-full max-w-3xl h-[400px] bg-white rounded-3xl relative overflow-hidden border-3 border-[#32302c] p-4 shadow-[8px_8px_0px_#32302c] z-10 my-2">
+            <div className="absolute inset-0 bg-[#fffeef]/60 pointer-events-none" />
 
             {/* Hidden Hearts */}
             {heartPositions.map((h) => {
@@ -644,26 +766,26 @@
                   key={h.id}
                   onClick={() => handleCollectHeart(h.id)}
                   style={{ top: h.top, left: h.left }}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 p-3 rounded-full transition-all duration-300 ${
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 p-3.5 rounded-2xl border-2 border-[#32302c] transition-all duration-300 ${
                     isFound
-                      ? 'bg-yellow-400 text-purple-950 scale-125 shadow-glow ring-4 ring-yellow-300'
-                      : 'bg-pink-500/30 text-pink-300 hover:scale-125 hover:bg-pink-500/60 animate-bounce'
+                      ? 'bg-[#ffde59] text-[#32302c] scale-125 shadow-[4px_4px_0px_#32302c] font-bold'
+                      : 'bg-pink-100 text-[#ff7eb6] hover:scale-125 animate-bounce shadow-[3px_3px_0px_#32302c]'
                   }`}
                 >
-                  <Icon name="Heart" className="w-6 h-6 fill-current" />
+                  <Icon name="Heart" className="w-7 h-7 fill-current" />
                 </button>
               );
             })}
           </div>
 
           {foundHearts.length === totalHearts && (
-            <div className="mt-6 animate-fade-in">
+            <div className="mt-4 relative z-10 animate-fade-in">
               <button
                 onClick={() => {
                   audioSynth.playMagicSparkle();
                   onCompleteKey();
                 }}
-                className="px-8 py-4 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-purple-950 font-bold text-lg shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center space-x-2 animate-bounce"
+                className="submit-btn text-lg animate-bounce flex items-center space-x-2 mx-auto"
               >
                 <Icon name="Key" className="w-6 h-6" />
                 <span>Nhận Chìa Khóa Vàng & Vào Mở Rương</span>
@@ -674,7 +796,7 @@
       );
     }
 
-    // --- SCENE 3: TREASURE ROOM ---
+    // --- SCENE 3: MỞ HỘP QUÀ / BÁU VẬT (Playful Castle Variation - Vibrant Gold Theme) ---
     function TreasureRoom({ onNext, hasGoldenKey }) {
       const [isOpen, setIsOpen] = useState(false);
 
@@ -683,26 +805,34 @@
         audioSynth.playMagicSparkle();
         setIsOpen(true);
         if (window.confetti) {
-          window.confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+          window.confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
         }
       };
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center">
-          <div className="max-w-2xl glass-card p-8 md:p-12 rounded-3xl border border-yellow-500/30 text-center relative">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold gold-gradient-text mb-4">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="max-w-2xl bg-white p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] text-center relative z-10 my-auto">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              ROYAL TREASURE ROOM
+            </span>
+            <h2 className="font-playful text-4xl sm:text-5xl font-bold text-[#32302c] mb-4">
               Phòng Báu Vật Cổ Tích
             </h2>
 
-            <div className="my-8 relative">
-              <div className="text-8xl transition-transform duration-500 transform hover:scale-110 cursor-pointer" onClick={handleOpenChest}>
+            <div className="my-6 relative">
+              <div
+                onClick={handleOpenChest}
+                className="w-28 h-28 mx-auto rounded-full bg-[#ffde59] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center text-6xl cursor-pointer hover:scale-110 transition-transform"
+              >
                 {isOpen ? '👑' : '🎁'}
               </div>
             </div>
 
             {!isOpen ? (
               <div>
-                <p className="text-purple-200 mb-6">
+                <p className="font-body font-medium text-[#32302c] mb-6 max-w-md mx-auto">
                   {hasGoldenKey
                     ? 'Bạn đã có Chìa Khóa Vàng! Mở rương báu ngay nào!'
                     : 'Rương báu đang khóa. Bạn cần hoàn thành trò chơi thu thập trái tim để lấy chìa khóa!'}
@@ -710,29 +840,26 @@
                 <button
                   onClick={handleOpenChest}
                   disabled={!hasGoldenKey}
-                  className={`px-8 py-3.5 rounded-full font-bold text-lg transition-all ${
-                    hasGoldenKey
-                      ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-purple-950 shadow-xl hover:scale-105 active:scale-95'
-                      : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                  }`}
+                  className={`submit-btn text-lg ${!hasGoldenKey ? 'opacity-50 cursor-not-allowed shadow-none' : ''}`}
                 >
-                  Tra Chìa Khóa Vàng
+                  Tra Chìa Khóa Vàng Mở Quà 🔑
                 </button>
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="p-4 bg-pink-500/20 rounded-2xl border border-pink-500/40">
-                  <h3 className="text-xl font-bold text-pink-300 mb-2">🎉 Báu Vật Đã Được Giải Mã!</h3>
-                  <p className="text-purple-200 text-sm">
+                <div className="p-5 bg-[#ffde59]/40 rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c]">
+                  <h3 className="font-playful text-2xl font-bold text-[#32302c] mb-1">🎉 Báu Vật Đã Được Giải Mã!</h3>
+                  <p className="font-body text-sm font-medium text-[#32302c]">
                     Tình yêu thương vô tận và Bức Thư Tình Hoàng Gia dành riêng cho Công Chúa đã sẵn sàng!
                   </p>
                 </div>
 
                 <button
                   onClick={onNext}
-                  className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+                  className="submit-btn text-lg mx-auto flex items-center justify-center space-x-2"
                 >
-                  Đọc Thư Tình Hoàng Gia ✨
+                  <span>Đọc Thư Tình Hoàng Gia</span>
+                  <span>✨</span>
                 </button>
               </div>
             )}
@@ -741,7 +868,7 @@
       );
     }
 
-    // --- SCENE 4: TYPEWRITER LETTER ---
+    // --- SCENE 4: LỜI CHÚC / THƯ TÌNH (Playful Castle Variation - Vibrant Gold Theme) ---
     function TypewriterLetter({ onNext, config }) {
       const [textIndex, setTextIndex] = useState(0);
       const [isDone, setIsDone] = useState(false);
@@ -763,32 +890,38 @@
       }, [textIndex, fullText, config]);
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24">
-          <div className="w-full max-w-2xl glass-card p-6 md:p-10 rounded-3xl border border-pink-500/30 relative shadow-2xl">
-            <div className="text-center mb-6">
-              <h2 className="font-heading text-2xl md:text-3xl font-bold gold-gradient-text">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 bg-[#ffde59] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="w-full max-w-2xl bg-[#fffeef] p-6 sm:p-10 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
+            <div className="text-center mb-4">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+                ROYAL LOVE LETTER
+              </span>
+              <h2 className="font-playful text-4xl font-bold text-[#32302c]">
                 {config.letter.title}
               </h2>
             </div>
 
-            <div className="bg-purple-950/50 p-6 rounded-2xl border border-pink-500/20 font-handwritten text-xl md:text-2xl text-pink-100 leading-relaxed whitespace-pre-wrap min-h-[220px]">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border-2 border-[#32302c] font-body text-base sm:text-lg text-[#32302c] leading-relaxed whitespace-pre-wrap min-h-[220px] shadow-inner">
               {fullText.slice(0, textIndex)}
-              {!isDone && <span className="animate-pulse text-yellow-400">|</span>}
+              {!isDone && <span className="animate-pulse text-[#e85a9c] font-bold">|</span>}
             </div>
 
             {isDone && (
-              <div className="mt-8 text-right space-y-1 font-handwritten text-xl text-yellow-300">
+              <div className="mt-6 text-right space-y-1 font-handwritten text-2xl text-[#e85a9c]">
                 <p>{config.letter.closing}</p>
-                <p className="font-bold text-2xl">{config.letter.signature}</p>
+                <p className="font-bold text-3xl text-[#32302c]">{config.letter.signature}</p>
               </div>
             )}
 
             <div className="mt-8 text-center">
               <button
                 onClick={onNext}
-                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+                className="submit-btn text-lg mx-auto flex items-center justify-center space-x-2"
               >
-                Tiếp Tục Đợi Nhạc Âm Cầm 🎵
+                <span>Lắng Nghe Giai Điệu Hoàng Gia</span>
+                <span>🎵</span>
               </button>
             </div>
           </div>
@@ -796,96 +929,221 @@
       );
     }
 
-    // --- SCENE 5: MUSIC PLAYER ---
+    // Helper function to resolve Dropbox or direct MP3 URLs
+    function getDirectAudioUrl(url) {
+      if (!url) return '';
+      if (url.startsWith('synth-')) return url;
+      if (url.includes('dropbox.com')) {
+        let direct = url.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
+        direct = direct.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+        return direct;
+      }
+      return url;
+    }
+
+    // --- SCENE 5: MUSIC PLAYER (Playful Castle Variation - Vibrant Gold Theme) ---
     function MusicPlayer({ onNext, config }) {
       const [isPlaying, setIsPlaying] = useState(false);
       const [currentTrackIdx, setCurrentTrackIdx] = useState(0);
+      const [currentTime, setCurrentTime] = useState(0);
+      const [duration, setDuration] = useState(0);
+      const [audioError, setAudioError] = useState(false);
 
+      const audioRef = useRef(null);
       const track = config.playlist[currentTrackIdx] || config.playlist[0];
+      const isHttpAudio = track && track.audioUrl && (track.audioUrl.startsWith('http://') || track.audioUrl.startsWith('https://'));
+
+      useEffect(() => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        audioSynth.stop();
+        setIsPlaying(false);
+        setAudioError(false);
+        setCurrentTime(0);
+        setDuration(0);
+      }, [currentTrackIdx]);
+
+      const playTrack = () => {
+        setAudioError(false);
+        if (isHttpAudio) {
+          const streamUrl = getDirectAudioUrl(track.audioUrl);
+          if (audioRef.current) {
+            audioRef.current.src = streamUrl;
+            audioRef.current.play().then(() => {
+              setIsPlaying(true);
+            }).catch(err => {
+              console.warn("Direct audio playback failed, falling back to synth:", err);
+              setAudioError(true);
+              audioSynth.startMelody('synth-romantic-waltz');
+              setIsPlaying(true);
+            });
+          }
+        } else {
+          audioSynth.startMelody(track.audioUrl || 'synth-romantic-waltz');
+          setIsPlaying(true);
+        }
+      };
+
+      const stopTrack = () => {
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        audioSynth.stop();
+        setIsPlaying(false);
+      };
 
       const togglePlay = () => {
         if (isPlaying) {
-          audioSynth.stop();
-          setIsPlaying(false);
+          stopTrack();
         } else {
-          audioSynth.startMelody(track.audioUrl);
-          setIsPlaying(true);
+          playTrack();
         }
       };
 
       const handleNextTrack = () => {
         const nextIdx = (currentTrackIdx + 1) % config.playlist.length;
         setCurrentTrackIdx(nextIdx);
-        if (isPlaying) {
-          audioSynth.startMelody(config.playlist[nextIdx].audioUrl);
-        }
+      };
+
+      const formatTime = (seconds) => {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
       };
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20">
-          <div className="w-full max-w-md glass-card p-8 rounded-3xl border border-pink-500/30 text-center relative">
-            <h2 className="font-heading text-2xl font-bold gold-gradient-text mb-6">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <audio
+            ref={audioRef}
+            onTimeUpdate={() => {
+              if (audioRef.current) {
+                setCurrentTime(audioRef.current.currentTime);
+                setDuration(audioRef.current.duration || 0);
+              }
+            }}
+            onEnded={() => {
+              setIsPlaying(false);
+              handleNextTrack();
+            }}
+            onError={() => {
+              setAudioError(true);
+            }}
+          />
+
+          <div className="w-full max-w-md bg-white p-8 rounded-3xl border-3 border-[#32302c] text-center relative shadow-[8px_8px_0px_#32302c] z-10 my-auto">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              PARTY PLAYLIST
+            </span>
+            <h2 className="font-playful text-4xl font-bold text-[#32302c] mb-2">
               Đĩa Nhạc Cổ Tích
             </h2>
 
+            {/* Audio Source Badge */}
+            <div className="mb-4 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#ffde59] border-2 border-[#32302c] text-xs font-mono font-bold text-[#32302c] shadow-[2px_2px_0px_#32302c]">
+              <Icon name="Music" className="w-3.5 h-3.5 text-[#32302c]" />
+              <span>
+                {isHttpAudio ? (audioError ? 'Synth Cổ Tích (Fallback)' : 'MP3 Trực Tuyến') : 'Synth Cổ Tích'}
+              </span>
+            </div>
+
             {/* Vinyl Record */}
             <div className="relative w-48 h-48 mx-auto mb-6">
-              <div className={`w-full h-full rounded-full bg-black border-4 border-yellow-500/40 p-2 shadow-2xl ${isPlaying ? 'animate-spin-slow' : ''}`}>
+              <div className={`w-full h-full rounded-full bg-[#32302c] border-4 border-[#ffde59] p-2 shadow-xl ${isPlaying ? 'animate-spin-slow' : ''}`}>
                 <img
                   src={track.cover}
                   alt={track.title}
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover rounded-full border-2 border-[#32302c]"
                 />
               </div>
-              <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-purple-950 border-2 border-yellow-400 flex items-center justify-center text-xs text-yellow-300">
+              <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-[#ffde59] border-2 border-[#32302c] flex items-center justify-center text-xs font-bold text-[#32302c] shadow-md">
                 ✨
               </div>
             </div>
 
-            <h3 className="text-xl font-bold text-white mb-1">{track.title}</h3>
-            <p className="text-sm text-pink-300 mb-6">{track.artist}</p>
+            <h3 className="font-body font-bold text-xl text-[#32302c] mb-0.5">{track.title}</h3>
+            <p className="font-mono text-xs font-bold text-[#e85a9c] mb-4">{track.artist}</p>
 
-            <div className="flex items-center justify-center space-x-6 mb-8">
+            <p className="font-caption italic text-xs text-[#32302c] mb-6 bg-[#ffde59]/30 p-3 rounded-xl border-2 border-[#32302c] font-medium">
+              "{track.lyricsQuote}"
+            </p>
+
+            {/* Progress Bar for Direct Audio */}
+            {isHttpAudio && duration > 0 && (
+              <div className="mb-6 space-y-1">
+                <input
+                  type="range"
+                  min="0"
+                  max={duration || 100}
+                  value={currentTime || 0}
+                  onChange={(e) => {
+                    const newTime = parseFloat(e.target.value);
+                    if (audioRef.current) {
+                      audioRef.current.currentTime = newTime;
+                      setCurrentTime(newTime);
+                    }
+                  }}
+                  className="w-full accent-[#ff7eb6] bg-[#ffde59] h-2 rounded-lg cursor-pointer border border-[#32302c]"
+                />
+                <div className="flex justify-between text-[10px] text-[#32302c] font-mono font-bold">
+                  <span>{formatTime(currentTime)}</span>
+                  <span>{formatTime(duration)}</span>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-center space-x-4 mb-6">
               <button
                 onClick={togglePlay}
-                className="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-400 text-purple-950 flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
+                className="w-14 h-14 rounded-2xl bg-[#ff7eb6] text-white border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center hover:bg-[#e85a9c] active:translate-x-0.5 active:translate-y-0.5 transition-all"
               >
-                <Icon name={isPlaying ? "Pause" : "Play"} className="w-8 h-8 fill-current" />
+                <Icon name={isPlaying ? "Pause" : "Play"} className="w-7 h-7 fill-current" />
               </button>
 
               <button
                 onClick={handleNextTrack}
-                className="p-3 rounded-full bg-purple-950/60 text-pink-300 border border-pink-500/30 hover:bg-pink-500/20"
+                className="w-12 h-12 rounded-2xl bg-[#ffde59] text-[#32302c] border-3 border-[#32302c] shadow-[3px_3px_0px_#32302c] flex items-center justify-center hover:bg-yellow-300 transition-all"
+                title="Bài Tiếp Theo"
               >
-                <Icon name="SkipForward" className="w-6 h-6" />
+                <Icon name="SkipForward" className="w-5 h-5" />
               </button>
             </div>
 
             <button
               onClick={onNext}
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-base shadow-lg hover:scale-105 transition-all"
+              className="pill-btn w-full justify-center text-sm shadow-md"
             >
-              Xem Bộ Sưu Tập Ảnh 📸
+              <span>Xem Album Kỷ Niệm 📸</span>
             </button>
           </div>
         </div>
       );
     }
 
-    // --- SCENE 6: POLAROID GALLERY ---
+    // --- SCENE 6: ALBUM ẢNH (Playful Castle Variation - Vibrant Gold Theme) ---
     function PolaroidGallery({ onNext, config }) {
       const [flippedId, setFlippedId] = useState(null);
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24">
-          <h2 className="font-heading text-3xl font-bold gold-gradient-text mb-2 text-center">
-            Góc Kỷ Niệm Polaroid
-          </h2>
-          <p className="text-pink-300 text-sm mb-10 text-center">
-            Nhấn vào từng bức ảnh để xem lời nhắn ngọt ngào phía sau
-          </p>
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 bg-[#ffde59] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl w-full">
+          <div className="text-center mb-8 relative z-10">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              PHOTO MEMORIES
+            </span>
+            <h2 className="font-playful text-5xl font-bold text-[#32302c] mb-1">
+              Góc Kỷ Niệm Polaroid
+            </h2>
+            <p className="font-mono text-xs font-bold text-[#32302c]/80">
+              Nhấn vào từng bức ảnh để xem lời nhắn phía sau
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl w-full relative z-10">
             {config.photos.map((p) => {
               const isFlipped = flippedId === p.id;
               return (
@@ -893,20 +1151,22 @@
                   key={p.id}
                   onClick={() => setFlippedId(isFlipped ? null : p.id)}
                   style={{ transform: `rotate(${p.rotation || 0}deg)` }}
-                  className="bg-white p-4 rounded-xl polaroid-shadow cursor-pointer transition-all duration-300 hover:scale-105 hover:z-20 text-gray-900 min-h-[340px] flex flex-col justify-between"
+                  className="sticker-card cursor-pointer min-h-[340px] flex flex-col justify-between"
                 >
                   {!isFlipped ? (
                     <div>
-                      <div className="w-full h-52 overflow-hidden rounded-lg mb-3 bg-gray-100">
+                      <div className="w-full h-48 overflow-hidden rounded-lg mb-3 border-2 border-[#32302c] bg-yellow-100">
                         <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                       </div>
-                      <h4 className="font-bold text-base text-gray-800">{p.title}</h4>
-                      <p className="text-xs text-gray-500">{p.date}</p>
+                      <h4 className="font-body font-bold text-base text-[#32302c] mb-0.5">{p.title}</h4>
+                      <p className="font-mono text-xs text-[#e85a9c] font-bold">{p.date}</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col justify-center items-center h-full text-center p-4 bg-pink-50 rounded-lg">
-                      <p className="font-handwritten text-2xl text-pink-600 mb-4">{p.caption}</p>
-                      <span className="text-xs text-pink-400 font-semibold">{p.location}</span>
+                    <div className="flex flex-col justify-center items-center h-full text-center p-4 bg-[#fffeef] rounded-lg border-2 border-[#32302c]">
+                      <p className="font-body font-medium text-sm text-[#32302c] mb-4 leading-relaxed">
+                        "{p.caption}"
+                      </p>
+                      <span className="font-mono text-xs text-[#e85a9c] font-bold">📍 {p.location}</span>
                     </div>
                   )}
                 </div>
@@ -914,79 +1174,141 @@
             })}
           </div>
 
-          <div className="mt-12">
+          <div className="mt-10 relative z-10">
             <button
               onClick={onNext}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+              className="submit-btn text-lg flex items-center space-x-2 mx-auto"
             >
-              Thổi Nến Sinh Nhật 🎂
+              <span>Thổi Nến Sinh Nhật</span>
+              <span>🎂</span>
             </button>
           </div>
         </div>
       );
     }
 
-    // --- SCENE 7: BIRTHDAY CAKE & BLOW CANDLES ---
+    // --- SCENE 7: BÁNH SINH NHẬT (Playful Castle Variation - Vibrant Gold Theme) ---
     function BirthdayCake({ onNext, config }) {
-      const [candlesBlown, setCandlesBlown] = useState(false);
+      const candleCount = 5;
+      const [litCandles, setLitCandles] = useState([0, 1, 2, 3, 4]);
 
-      const handleBlowOut = () => {
-        if (candlesBlown) return;
-        audioSynth.playMagicSparkle();
-        setCandlesBlown(true);
+      const toggleCandle = (idx) => {
+        audioSynth.playBlowOutSound();
+        setLitCandles(prev => prev.filter(i => i !== idx));
+      };
+
+      const blowAllCandles = () => {
+        audioSynth.playBlowOutSound();
+        setLitCandles([]);
         if (window.confetti) {
-          window.confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+          window.confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 } });
         }
       };
 
+      const allBlown = litCandles.length === 0;
+
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center">
-          <div className="max-w-md glass-card p-8 rounded-3xl border border-pink-500/30 w-full relative">
-            <h2 className="font-heading text-3xl font-bold gold-gradient-text mb-2">
-              Bánh Sinh Nhật Cổ Tích
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="max-w-lg bg-white p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] w-full relative z-10 my-auto">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              MAKE A WISH
+            </span>
+            <h2 className="font-playful text-4xl font-bold text-[#32302c] mb-2">
+              Bánh Sinh Nhật Hoàng Gia
             </h2>
-            <p className="text-pink-300 text-sm mb-8">
-              Nhấn vào bánh để thổi nến và ước một điều ước nhé!
+            <p className="font-body text-xs text-[#32302c]/80 mb-6 font-medium">
+              Chạm vào từng ngọn nến hoặc nhấn nút dưới đây để thổi nến!
             </p>
 
-            <div
-              onClick={handleBlowOut}
-              className="cursor-pointer my-8 p-6 bg-purple-950/40 rounded-2xl border border-pink-500/20 hover:scale-105 transition-all"
-            >
-              <div className="text-8xl mb-4">
-                {candlesBlown ? '🎂' : '🕯️🎂🕯️'}
+            {/* Interactive Cake Visual */}
+            <div className="my-6 relative py-4 flex flex-col items-center justify-center">
+              
+              {/* Candles section */}
+              <div className="flex justify-center space-x-6 mb-1 z-10">
+                {Array.from({ length: candleCount }).map((_, idx) => {
+                  const isLit = litCandles.includes(idx);
+                  return (
+                    <div
+                      key={idx}
+                      onClick={() => toggleCandle(idx)}
+                      className="cursor-pointer flex flex-col items-center group"
+                      title="Chạm để thổi nến"
+                    >
+                      {/* Flame */}
+                      <div className={`w-4 h-6 rounded-full transition-all duration-300 ${
+                        isLit 
+                          ? 'bg-gradient-to-t from-orange-500 via-yellow-300 to-white animate-flicker flame-glow scale-110' 
+                          : 'bg-gray-400 scale-50 opacity-40'
+                      }`} />
+                      {/* Wick */}
+                      <div className="w-0.5 h-2 bg-[#32302c]" />
+                      {/* Candle Body */}
+                      <div className="w-3.5 h-12 bg-[#ff7eb6] rounded-t-sm shadow-md border-2 border-[#32302c]" />
+                    </div>
+                  );
+                })}
               </div>
 
-              {!candlesBlown ? (
-                <div className="inline-flex items-center space-x-2 bg-pink-500/20 px-4 py-2 rounded-full border border-pink-500/40 text-pink-300 text-sm animate-pulse">
-                  <span>Chạm vào đây để thổi nến!</span>
+              {/* Cake Top Tier */}
+              <div className="w-44 h-12 bg-[#ffde59] rounded-t-3xl border-3 border-[#32302c] shadow-md flex items-center justify-center relative">
+                <div className="bg-white text-[#32302c] font-bold px-3 py-0.5 rounded-full text-xs border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c]">
+                  Tuổi {config.ageNumber}
                 </div>
-              ) : (
-                <div className="text-yellow-300 font-bold text-lg animate-bounce">
-                  ✨ Lời ước đã được gửi tới các vì sao! ✨
-                </div>
-              )}
+              </div>
+
+              {/* Cake Bottom Tier with Recipient Name */}
+              <div className="w-64 h-20 bg-[#ff7eb6] rounded-b-2xl border-3 border-[#32302c] shadow-xl flex flex-col items-center justify-center p-2 relative -mt-1 text-white">
+                <span className="font-playful text-2xl font-bold text-white drop-shadow-md px-2 text-center truncate max-w-full">
+                  Happy Birthday {config.recipientName}!
+                </span>
+                <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-yellow-200">
+                  ✨ {config.birthdayDate} ✨
+                </span>
+              </div>
+
+              {/* Plate */}
+              <div className="w-72 h-4 bg-[#ffde59] rounded-full shadow-lg -mt-1 border-2 border-[#32302c]" />
             </div>
 
-            {candlesBlown && (
-              <button
-                onClick={onNext}
-                className="w-full py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 transition-all"
-              >
-                Xem Lời Chúc Cuối Cùng ❤️
-              </button>
-            )}
+            {/* Controls */}
+            <div className="mt-6 space-y-4">
+              {!allBlown ? (
+                <button
+                  onClick={blowAllCandles}
+                  className="submit-btn text-base mx-auto flex items-center justify-center space-x-2"
+                >
+                  <span>🌬️ Thổi Tắt Tất Cả Nến & Ước</span>
+                </button>
+              ) : (
+                <div className="p-4 bg-[#ffde59] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] font-bold text-[#32302c] text-sm animate-bounce">
+                  ✨ Nến đã được thổi tắt! Nguyện cầu ước mơ của Công Chúa thành hiện thực! ✨
+                </div>
+              )}
+
+              {allBlown && (
+                <button
+                  onClick={onNext}
+                  className="pill-btn w-full justify-center text-sm shadow-md mt-2"
+                >
+                  <span>Xem Lời Chúc & Viết Lời Chúc ❤️</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       );
     }
 
-    // --- SCENE 8: EMOTIONAL ENDING ---
-    function EmotionalEnding({ onRestart, config }) {
+    // --- SCENE 8: KẾT THÚC (Playful Castle Variation - Vibrant Gold Theme) ---
+    function EmotionalEnding({ onNext, config }) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 text-center">
-          <div className="max-w-2xl glass-card p-8 md:p-12 rounded-3xl border border-yellow-500/40 shadow-2xl">
-            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 border-4 border-yellow-400 p-1">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 text-center bg-[#ffde59] text-[#32302c] relative overflow-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="max-w-2xl bg-[#fffeef] p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
+            <div className="w-28 h-28 rounded-full overflow-hidden mx-auto mb-4 border-3 border-[#32302c] p-1 bg-[#ffde59] shadow-[4px_4px_0px_#32302c]">
               <img
                 src={config.finalSurprise.portraitUrl}
                 alt={config.recipientName}
@@ -994,196 +1316,890 @@
               />
             </div>
 
-            <h2 className="font-heading text-3xl md:text-4xl font-bold gold-gradient-text mb-4">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+              FINAL BLESSING
+            </span>
+            <h2 className="font-playful text-4xl sm:text-5xl font-bold text-[#32302c] mb-4">
               {config.finalSurprise.quoteTitle}
             </h2>
 
-            <p className="font-handwritten text-2xl text-pink-200 mb-6 leading-relaxed">
+            <p className="font-handwritten text-2xl text-[#e85a9c] mb-6 leading-relaxed">
               "{config.finalSurprise.quoteBody}"
             </p>
 
-            <div className="p-4 bg-yellow-500/10 rounded-2xl border border-yellow-400/30 mb-8">
-              <p className="text-yellow-300 font-medium text-sm">
-                🌟 Lời Hứa Hoàng Gia: {config.finalSurprise.specialPromise}
-              </p>
+            <div className="p-4 bg-[#ffde59] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] mb-8 font-bold text-[#32302c] text-sm">
+              🌟 Lời Hứa Hoàng Gia: {config.finalSurprise.specialPromise}
             </div>
 
             <button
-              onClick={onRestart}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+              onClick={onNext}
+              className="submit-btn text-lg flex items-center justify-center space-x-2 mx-auto"
             >
-              Xem Lại Từ Đầu ✨
+              <span>Gửi Lời Chúc Vào Bức Tường Kỷ Niệm</span>
+              <span>✨</span>
             </button>
           </div>
         </div>
       );
     }
 
-    // --- CONFIG EDITOR MODAL ---
-    function ConfigEditorModal({ isOpen, onClose, config, onSaveConfig, onResetDefault }) {
-      if (!isOpen) return null;
+    // --- SCENE 9: BỨC TƯỜNG LỜI CHÚC (Wish Wall / Guestbook - Playful Castle Variation) ---
+    function WishWall({ config, onRestart }) {
+      const [wishes, setWishes] = useState(() => {
+        const saved = localStorage.getItem('royal_birthday_wishes');
+        return saved ? JSON.parse(saved) : initialWishes;
+      });
 
-      const [edited, setEdited] = useState(JSON.parse(JSON.stringify(config)));
+      const [sender, setSender] = useState('');
+      const [message, setMessage] = useState('');
+      const [selectedIcon, setSelectedIcon] = useState('💖');
 
-      const handleSave = () => {
-        onSaveConfig(edited);
-        onClose();
+      const icons = ['💖', '👑', '✨', '🎂', '🌸', '🎁', '⭐'];
+
+      const handleSubmitWish = (e) => {
+        e.preventDefault();
+        if (!sender.trim() || !message.trim()) return;
+
+        audioSynth.playMagicSparkle();
+        const newWish = {
+          id: Date.now(),
+          sender: sender.trim(),
+          message: message.trim(),
+          icon: selectedIcon,
+          date: 'HÔM NAY'
+        };
+
+        const updated = [newWish, ...wishes];
+        setWishes(updated);
+        localStorage.setItem('royal_birthday_wishes', JSON.stringify(updated));
+
+        setSender('');
+        setMessage('');
+
+        if (window.confetti) {
+          window.confetti({ particleCount: 80, spread: 60 });
+        }
       };
 
       return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="w-full max-w-2xl glass-card p-6 rounded-3xl border border-pink-500/30 max-h-[85vh] overflow-y-auto text-white">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-pink-500/20">
-              <h3 className="font-heading text-xl font-bold gold-gradient-text">
-                Chỉnh Sửa Nội Dung Thiệp
-              </h3>
-              <button onClick={onClose} className="p-2 text-pink-300 hover:text-white">
-                <Icon name="X" className="w-5 h-5" />
-              </button>
+        <div className="relative min-h-screen px-4 py-20 bg-[#ffde59] text-[#32302c] flex flex-col justify-between overflow-x-hidden">
+          <div className="dot-grid"></div>
+
+          <div className="max-w-6xl w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start my-auto">
+            {/* Form Side */}
+            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
+                Bức Tường Lời Chúc Hoàng Gia
+              </span>
+              <h2 className="font-playful text-5xl sm:text-6xl text-[#32302c] leading-none mb-3 font-bold">
+                Gửi Ngàn <br /> Yêu Thương!
+              </h2>
+              <p className="text-[#32302c]/80 text-sm mb-6 leading-relaxed font-medium">
+                Hãy để lại lời chúc ngọt ngào dành tặng cho <strong className="text-[#e85a9c] font-bold">{config.recipientName}</strong> nhé!
+              </p>
+
+              <form onSubmit={handleSubmitWish} className="space-y-4">
+                <div>
+                  <label className="block font-mono text-xs uppercase font-bold text-[#e85a9c] mb-1.5">
+                    Tên Người Gửi
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Tên bạn là gì nhỉ?..."
+                    value={sender}
+                    onChange={(e) => setSender(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-[#fffeef] border-2 border-[#32302c] text-[#32302c] placeholder-gray-400 focus:outline-none focus:border-[#e85a9c] font-body text-sm shadow-inner"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-mono text-xs uppercase font-bold text-[#e85a9c] mb-1.5">
+                    Chọn Icon Biểu Tượng
+                  </label>
+                  <div className="emoji-selector flex flex-wrap gap-2">
+                    {icons.map(ic => (
+                      <button
+                        key={ic}
+                        type="button"
+                        onClick={() => setSelectedIcon(ic)}
+                        className={`emoji-btn ${selectedIcon === ic ? 'active' : 'opacity-80 hover:opacity-100'}`}
+                      >
+                        {ic}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-mono text-xs uppercase font-bold text-[#e85a9c] mb-1.5">
+                    Lời Chúc Của Bạn
+                  </label>
+                  <textarea
+                    required
+                    rows={3}
+                    placeholder={`Gửi những lời chúc ấm áp nhất tới ${config.recipientName}...`}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-[#fffeef] border-2 border-[#32302c] text-[#32302c] placeholder-gray-400 focus:outline-none focus:border-[#e85a9c] font-body text-sm shadow-inner"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="submit-btn w-full flex items-center justify-center space-x-2 font-body text-base mt-2"
+                >
+                  <span>Gửi Lời Chúc Ngay</span>
+                  <span>✨</span>
+                </button>
+              </form>
+
+              <div className="mt-6 pt-4 border-t-2 border-[#32302c]/20">
+                <button
+                  onClick={onRestart}
+                  className="pill-btn w-full justify-center text-sm font-body shadow-md"
+                >
+                  <span>Trở Về Trang Đầu ✨</span>
+                </button>
+              </div>
             </div>
 
-            <div className="space-y-4 text-sm">
-              <div>
-                <label className="block text-xs font-semibold text-pink-300 mb-1">Tên Công Chúa / Người Nhận</label>
-                <input
-                  type="text"
-                  value={edited.recipientName}
-                  onChange={(e) => setEdited({ ...edited, recipientName: e.target.value })}
-                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
-                />
+            {/* Wall Side - Sticker Cards */}
+            <div className="lg:col-span-7 bg-[#fffeef] p-6 sm:p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] text-[#32302c] max-h-[620px] overflow-y-auto">
+              <div className="flex items-center justify-between mb-6 pb-2 border-b-2 border-[#32302c]">
+                <span className="sticky-label font-mono font-bold text-xs sm:text-sm tracking-wider uppercase text-[#32302c]">
+                  📌 DANH SÁCH LỜI CHÚC ({wishes.length})
+                </span>
+                <span className="font-playful text-2xl font-bold text-[#e85a9c]">
+                  Royal Party 👑
+                </span>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-pink-300 mb-1">Tên Người Gửi</label>
-                <input
-                  type="text"
-                  value={edited.senderName}
-                  onChange={(e) => setEdited({ ...edited, senderName: e.target.value })}
-                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {wishes.map((w, idx) => (
+                  <div key={w.id || idx} className="sticker-card">
+                    <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-gray-200">
+                      <span className="font-bold text-xs sm:text-sm flex items-center space-x-1 text-[#32302c]">
+                        <span className="text-base">{w.icon}</span>
+                        <span className="truncate max-w-[130px]">{w.sender}</span>
+                      </span>
+                      <span className="font-mono text-[10px] text-gray-500 uppercase">{w.date || 'HÔM NAY'}</span>
+                    </div>
+                    <p className="font-body text-xs sm:text-sm text-[#32302c] leading-relaxed font-medium">
+                      "{w.message}"
+                    </p>
+                  </div>
+                ))}
               </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-pink-300 mb-1">Tiêu Đề Tuổi Mới</label>
-                <input
-                  type="text"
-                  value={edited.ageTitle}
-                  onChange={(e) => setEdited({ ...edited, ageTitle: e.target.value })}
-                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-pink-300 mb-1">Nội Dung Thư Tình</label>
-                <textarea
-                  rows={5}
-                  value={edited.letter.paragraphs.join("\n\n")}
-                  onChange={(e) => setEdited({
-                    ...edited,
-                    letter: { ...edited.letter, paragraphs: e.target.value.split("\n\n") }
-                  })}
-                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end space-x-3 mt-6 pt-4 border-t border-pink-500/20">
-              <button
-                onClick={onResetDefault}
-                className="px-4 py-2 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 text-xs font-bold"
-              >
-                Mặc Định
-              </button>
-              <button
-                onClick={handleSave}
-                className="px-6 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-sm shadow-lg hover:scale-105"
-              >
-                Lưu Thay Đổi
-              </button>
             </div>
           </div>
         </div>
       );
     }
 
-    // --- MAIN APP COMPONENT ---
-    function App() {
-      const [currentScene, setCurrentScene] = useState(0);
-      const [hasGoldenKey, setHasGoldenKey] = useState(false);
-      const [config, setConfig] = useState(defaultBirthdayConfig);
-      const [isEditorOpen, setIsEditorOpen] = useState(false);
+    // --- COMPLETE CONFIG EDITOR MODAL WITH FULL EDITING & JSON EXPORT/IMPORT ---
+    function ConfigEditorModal({ isOpen, onClose, config, onSaveConfig, onResetDefault }) {
+      if (!isOpen) return null;
 
-      const totalScenes = 9;
+      const [edited, setEdited] = useState(JSON.parse(JSON.stringify(config)));
+      const [activeTab, setActiveTab] = useState('basic');
+      const fileInputRef = useRef(null);
 
-      const handleNextScene = () => {
-        setCurrentScene((prev) => Math.min(totalScenes - 1, prev + 1));
+      const handleSave = () => {
+        onSaveConfig(edited);
+        onClose();
       };
 
-      const handleSelectScene = (sceneIdx) => {
-        setCurrentScene(sceneIdx);
+      // Export JSON configuration file
+      const handleExportJSON = () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(edited, null, 2));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `birthday-config.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
       };
 
-      const handleUnlockKey = () => {
-        setHasGoldenKey(true);
-        handleNextScene();
+      // Import JSON configuration file
+      const handleImportJSON = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const parsed = JSON.parse(event.target.result);
+            setEdited(parsed);
+            alert("Đã tải cấu hình JSON thành công!");
+          } catch (err) {
+            alert("Lỗi đọc file JSON. Vui lòng kiểm tra lại định dạng file!");
+          }
+        };
+        reader.readAsText(file);
       };
 
       return (
-        <div className="min-h-screen relative font-sans select-none overflow-x-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="w-full max-w-3xl glass-card p-6 rounded-3xl border border-pink-400/40 max-h-[90vh] flex flex-col text-white shadow-2xl">
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-pink-500/20">
+              <div className="flex items-center space-x-2">
+                <Icon name="Settings" className="w-5 h-5 text-pink-300" />
+                <h3 className="font-hero text-xl font-bold gold-gradient-text">
+                  Chỉnh Sửa Tất Cả Nội Dung Thiệp
+                </h3>
+              </div>
+              <button onClick={onClose} className="p-1.5 text-pink-300 hover:text-white rounded-lg hover:bg-white/10">
+                <Icon name="X" className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Editor Category Tabs */}
+            <div className="flex space-x-1 my-4 p-1 bg-purple-950/80 rounded-xl border border-pink-500/20 overflow-x-auto text-xs font-btn font-medium">
+              {[
+                { id: 'basic', label: 'Cơ Bản' },
+                { id: 'letter', label: 'Thư Tình' },
+                { id: 'photos', label: 'Album Ảnh' },
+                { id: 'playlist', label: 'Âm Nhạc' },
+                { id: 'surprise', label: 'Báu Vật & Cuối' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3.5 py-2 rounded-lg transition-all whitespace-nowrap ${
+                    activeTab === tab.id ? 'bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold' : 'text-purple-300 hover:text-white'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Modal Content Scroll Area */}
+            <div className="flex-1 overflow-y-auto pr-1 space-y-4 text-xs font-body">
+              
+              {/* TAB 1: BASIC INFO */}
+              {activeTab === 'basic' && (
+                <div className="space-y-4">
+                  {/* Header Title & Icon Box */}
+                  <div className="p-3.5 bg-purple-900/50 rounded-2xl border border-yellow-400/30 space-y-2.5">
+                    <div className="font-semibold text-yellow-300 text-xs flex items-center space-x-1.5">
+                      <Icon name="Crown" className="w-4 h-4 text-yellow-400" />
+                      <span>Chỉnh Sửa Icon & Tiêu Đề Header (Góc Trên Bên Trái)</span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2.5">
+                      <div className="col-span-1">
+                        <label className="block text-[11px] font-semibold text-pink-300 mb-1">Icon / Emoji</label>
+                        <input
+                          type="text"
+                          value={edited.headerIcon || "👑"}
+                          onChange={(e) => setEdited({ ...edited, headerIcon: e.target.value })}
+                          className="w-full px-3 py-2 rounded-xl bg-purple-950/90 border border-pink-500/40 text-white text-center font-bold text-lg focus:outline-none focus:border-yellow-400"
+                          placeholder="👑"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <label className="block text-[11px] font-semibold text-pink-300 mb-1">Tên Tiêu Đề Header</label>
+                        <input
+                          type="text"
+                          value={edited.headerTitle || "Royal Birthday"}
+                          onChange={(e) => setEdited({ ...edited, headerTitle: e.target.value })}
+                          className="w-full px-3.5 py-2 rounded-xl bg-purple-950/90 border border-pink-500/40 text-white focus:outline-none focus:border-yellow-400 font-hero font-bold text-sm"
+                          placeholder="Royal Birthday"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                      <span className="text-[10px] text-purple-300 font-mono">Gợi ý Icon:</span>
+                      {["👑", "💖", "🎂", "✨", "🌹", "🏰", "💎", "🎉", "🎀", "🕊️", "🎶", "🎁"].map((emoji) => (
+                        <button
+                          key={emoji}
+                          type="button"
+                          onClick={() => setEdited({ ...edited, headerIcon: emoji })}
+                          className={`w-7 h-7 rounded-lg text-xs flex items-center justify-center border transition-all ${
+                            (edited.headerIcon || "👑") === emoji
+                              ? 'bg-yellow-400/30 border-yellow-400 scale-110 shadow-sm'
+                              : 'bg-purple-950/60 border-pink-500/20 hover:bg-purple-800/80'
+                          }`}
+                        >
+                          {emoji}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Tên Công Chúa / Người Nhận</label>
+                    <input
+                      type="text"
+                      value={edited.recipientName}
+                      onChange={(e) => setEdited({ ...edited, recipientName: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Tên Người Gửi</label>
+                    <input
+                      type="text"
+                      value={edited.senderName}
+                      onChange={(e) => setEdited({ ...edited, senderName: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Ngày Sinh Nhật</label>
+                      <input
+                        type="text"
+                        value={edited.birthdayDate}
+                        onChange={(e) => setEdited({ ...edited, birthdayDate: e.target.value })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Số Tuổi (Số nến)</label>
+                      <input
+                        type="number"
+                        value={edited.ageNumber}
+                        onChange={(e) => setEdited({ ...edited, ageNumber: parseInt(e.target.value) || 0 })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Tiêu Đề Tuổi Mới</label>
+                    <input
+                      type="text"
+                      value={edited.ageTitle}
+                      onChange={(e) => setEdited({ ...edited, ageTitle: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: LETTER */}
+              {activeTab === 'letter' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Tiêu Đề Bức Thư</label>
+                    <input
+                      type="text"
+                      value={edited.letter.title}
+                      onChange={(e) => setEdited({
+                        ...edited,
+                        letter: { ...edited.letter, title: e.target.value }
+                      })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Nội Dung Các Đoạn Văn (Phân cách bằng 2 lần xuống dòng)</label>
+                    <textarea
+                      rows={6}
+                      value={edited.letter.paragraphs.join("\n\n")}
+                      onChange={(e) => setEdited({
+                        ...edited,
+                        letter: { ...edited.letter, paragraphs: e.target.value.split("\n\n") }
+                      })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Lời Kết Thư</label>
+                      <input
+                        type="text"
+                        value={edited.letter.closing}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          letter: { ...edited.letter, closing: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Chữ Ký Chữ Viết Tay</label>
+                      <input
+                        type="text"
+                        value={edited.letter.signature}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          letter: { ...edited.letter, signature: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: PHOTOS */}
+              {activeTab === 'photos' && (
+                <div className="space-y-4">
+                  {edited.photos.map((photo, idx) => (
+                    <div key={photo.id || idx} className="p-3 bg-purple-950/60 rounded-xl border border-pink-500/20 space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-pink-300">Ảnh #{idx + 1}</span>
+                        <button
+                          onClick={() => {
+                            const updated = edited.photos.filter((_, i) => i !== idx);
+                            setEdited({ ...edited, photos: updated });
+                          }}
+                          className="text-red-400 hover:text-red-300 p-1"
+                        >
+                          <Icon name="Trash2" className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          placeholder="Tiêu đề ảnh"
+                          value={photo.title}
+                          onChange={(e) => {
+                            const updated = [...edited.photos];
+                            updated[idx].title = e.target.value;
+                            setEdited({ ...edited, photos: updated });
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Ngày kỷ niệm"
+                          value={photo.date}
+                          onChange={(e) => {
+                            const updated = [...edited.photos];
+                            updated[idx].date = e.target.value;
+                            setEdited({ ...edited, photos: updated });
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                        />
+                      </div>
+
+                      <input
+                        type="text"
+                        placeholder="URL hình ảnh (https://...)"
+                        value={photo.image}
+                        onChange={(e) => {
+                          const updated = [...edited.photos];
+                          updated[idx].image = e.target.value;
+                          setEdited({ ...edited, photos: updated });
+                        }}
+                        className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                      />
+
+                      <textarea
+                        rows={2}
+                        placeholder="Lời nhắn trên mặt sau ảnh"
+                        value={photo.caption}
+                        onChange={(e) => {
+                          const updated = [...edited.photos];
+                          updated[idx].caption = e.target.value;
+                          setEdited({ ...edited, photos: updated });
+                        }}
+                        className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                      />
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={() => {
+                      const newP = {
+                        id: `p-${Date.now()}`,
+                        title: "Kỷ Niệm Mới",
+                        date: "Ngày ngọt ngào",
+                        image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80",
+                        caption: "Những khoảnh khắc hạnh phúc cùng em.",
+                        rotation: 0,
+                        location: "Địa điểm kỷ niệm",
+                        tags: ["Kỷ Niệm"]
+                      };
+                      setEdited({ ...edited, photos: [...edited.photos, newP] });
+                    }}
+                    className="w-full py-2 bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 rounded-xl border border-pink-500/40 font-btn font-medium flex items-center justify-center space-x-1"
+                  >
+                    <Icon name="Plus" className="w-4 h-4" />
+                    <span>Thêm Bức Ảnh Mới</span>
+                  </button>
+                </div>
+              )}
+
+              {/* TAB 4: PLAYLIST */}
+              {activeTab === 'playlist' && (
+                <div className="space-y-4">
+                  <div className="p-3 bg-purple-900/40 rounded-xl border border-yellow-400/30 text-xs text-yellow-200 leading-relaxed">
+                    💡 <strong>Hướng dẫn dán link nhạc:</strong> Bạn có thể dán link <strong>Dropbox</strong> (như <code>https://www.dropbox.com/.../In-Love.mp3</code>), link MP3 trực tiếp, hoặc chọn preset synth (như <code>synth-romantic-waltz</code>).
+                  </div>
+
+                  {edited.playlist.map((track, idx) => (
+                    <div key={track.id || idx} className="p-3 bg-purple-950/60 rounded-xl border border-pink-500/20 space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-pink-300">Bài Hát #{idx + 1}</span>
+                        {edited.playlist.length > 1 && (
+                          <button
+                            onClick={() => {
+                              const updated = edited.playlist.filter((_, i) => i !== idx);
+                              setEdited({ ...edited, playlist: updated });
+                            }}
+                            className="text-red-400 hover:text-red-300 p-1"
+                            title="Xóa bài hát"
+                          >
+                            <Icon name="Trash2" className="w-4 h-4" />
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[11px] text-pink-300 mb-0.5">Tên bài hát</label>
+                          <input
+                            type="text"
+                            placeholder="Tên bài hát"
+                            value={track.title}
+                            onChange={(e) => {
+                              const updated = [...edited.playlist];
+                              updated[idx].title = e.target.value;
+                              setEdited({ ...edited, playlist: updated });
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[11px] text-pink-300 mb-0.5">Ca sĩ / Tác giả</label>
+                          <input
+                            type="text"
+                            placeholder="Ca sĩ / Nhạc sĩ"
+                            value={track.artist}
+                            onChange={(e) => {
+                              const updated = [...edited.playlist];
+                              updated[idx].artist = e.target.value;
+                              setEdited({ ...edited, playlist: updated });
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] text-yellow-300 font-semibold mb-0.5">Link Nhạc (Dropbox / Direct MP3 URL / Synth)</label>
+                        <input
+                          type="text"
+                          placeholder="Dán link nhạc https://... hoặc synth-romantic-waltz"
+                          value={track.audioUrl || ''}
+                          onChange={(e) => {
+                            const updated = [...edited.playlist];
+                            updated[idx].audioUrl = e.target.value;
+                            setEdited({ ...edited, playlist: updated });
+                          }}
+                          className="w-full px-3 py-1.5 rounded-lg bg-purple-900/80 border border-yellow-400/40 text-yellow-200 font-mono text-xs focus:outline-none focus:border-yellow-300"
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[11px] text-pink-300 mb-0.5">URL Ảnh Bìa</label>
+                          <input
+                            type="text"
+                            placeholder="URL Ảnh Bìa Đĩa Hát"
+                            value={track.cover}
+                            onChange={(e) => {
+                              const updated = [...edited.playlist];
+                              updated[idx].cover = e.target.value;
+                              setEdited({ ...edited, playlist: updated });
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[11px] text-pink-300 mb-0.5">Lời nhắn / Trích dẫn</label>
+                          <input
+                            type="text"
+                            placeholder="Trích dẫn lời bài hát"
+                            value={track.lyricsQuote}
+                            onChange={(e) => {
+                              const updated = [...edited.playlist];
+                              updated[idx].lyricsQuote = e.target.value;
+                              setEdited({ ...edited, playlist: updated });
+                            }}
+                            className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={() => {
+                      const newTrack = {
+                        id: `track-${Date.now()}`,
+                        title: "Bài Hát Mới",
+                        artist: "Nhạc Trực Tuyến",
+                        cover: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80",
+                        audioUrl: "https://www.dropbox.com/scl/fi/qukliqadgw1m4p5w2wkg8/In-Love.mp3?rlkey=5xxcuhgknbkp4eukj92brqqw1&st=zysb01ix&dl=0",
+                        duration: "03:45",
+                        lyricsQuote: "Giai điệu lãng mạn dành riêng cho em."
+                      };
+                      setEdited({ ...edited, playlist: [...edited.playlist, newTrack] });
+                    }}
+                    className="w-full py-2 bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 rounded-xl border border-pink-500/40 font-btn font-medium flex items-center justify-center space-x-1"
+                  >
+                    <Icon name="Plus" className="w-4 h-4" />
+                    <span>Thêm Bài Hát Mới / Link Nhạc MP3</span>
+                  </button>
+                </div>
+              )}
+
+              {/* TAB 5: FINAL SURPRISE */}
+              {activeTab === 'surprise' && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">URL Ảnh Chân Dung Cuối Thư</label>
+                    <input
+                      type="text"
+                      value={edited.finalSurprise.portraitUrl}
+                      onChange={(e) => setEdited({
+                        ...edited,
+                        finalSurprise: { ...edited.finalSurprise, portraitUrl: e.target.value }
+                      })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Tiêu Đề Trích Dẫn Hạnh Phúc</label>
+                    <input
+                      type="text"
+                      value={edited.finalSurprise.quoteTitle}
+                      onChange={(e) => setEdited({
+                        ...edited,
+                        finalSurprise: { ...edited.finalSurprise, quoteTitle: e.target.value }
+                      })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Nội Dung Lời Chúc Cuối</label>
+                    <textarea
+                      rows={3}
+                      value={edited.finalSurprise.quoteBody}
+                      onChange={(e) => setEdited({
+                        ...edited,
+                        finalSurprise: { ...edited.finalSurprise, quoteBody: e.target.value }
+                      })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-pink-300 mb-1">Lời Hứa Hoàng Gia</label>
+                    <input
+                      type="text"
+                      value={edited.finalSurprise.specialPromise}
+                      onChange={(e) => setEdited({
+                        ...edited,
+                        finalSurprise: { ...edited.finalSurprise, specialPromise: e.target.value }
+                      })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Actions Footer (JSON Export / Import / Save) */}
+            <div className="flex flex-wrap items-center justify-between gap-2 mt-4 pt-3 border-t border-pink-500/20">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleExportJSON}
+                  className="px-3 py-1.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 text-yellow-300 border border-yellow-400/40 text-xs font-btn font-medium flex items-center space-x-1"
+                  title="Tải cấu hình về máy dưới dạng JSON"
+                >
+                  <Icon name="Download" className="w-3.5 h-3.5" />
+                  <span>Xuất JSON</span>
+                </button>
+
+                <button
+                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  className="px-3 py-1.5 rounded-xl bg-purple-900/80 hover:bg-purple-800 text-pink-300 border border-pink-400/40 text-xs font-btn font-medium flex items-center space-x-1"
+                  title="Tải file JSON từ máy lên"
+                >
+                  <Icon name="Upload" className="w-3.5 h-3.5" />
+                  <span>Nhập JSON</span>
+                </button>
+
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImportJSON}
+                  accept=".json"
+                  className="hidden"
+                />
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={onResetDefault}
+                  className="px-3.5 py-1.5 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 text-xs font-btn font-medium"
+                >
+                  Mặc Định
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="px-5 py-1.5 rounded-xl bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-btn font-medium text-xs font-bold shadow-lg hover:scale-105"
+                >
+                  Lưu Thay Đổi
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+
+    // --- MAIN APP ENTRY COMPONENT ---
+    function App() {
+      const [currentScene, setCurrentScene] = useState(0);
+      const [hasGoldenKey, setHasGoldenKey] = useState(false);
+      const [isEditorOpen, setIsEditorOpen] = useState(false);
+
+      // Persistent Configuration in LocalStorage
+      const [config, setConfig] = useState(() => {
+        const saved = localStorage.getItem('royal_birthday_config');
+        return saved ? JSON.parse(saved) : defaultBirthdayConfig;
+      });
+
+      const handleSaveConfig = (newConfig) => {
+        setConfig(newConfig);
+        localStorage.setItem('royal_birthday_config', JSON.stringify(newConfig));
+      };
+
+      const handleResetDefault = () => {
+        if (confirm("Khôi phục toàn bộ cấu hình mặc định ban đầu?")) {
+          setConfig(defaultBirthdayConfig);
+          localStorage.removeItem('royal_birthday_config');
+          setIsEditorOpen(false);
+        }
+      };
+
+      const totalScenes = 10;
+
+      return (
+        <div className="min-h-screen relative overflow-hidden">
+          {/* Ambient Particles */}
           <ParticleCanvas />
 
+          {/* Top Header Navigation */}
           {currentScene > 0 && (
             <HeaderNav
               currentScene={currentScene}
               totalScenes={totalScenes}
-              onSelectScene={handleSelectScene}
+              onSelectScene={(idx) => setCurrentScene(idx)}
               hasGoldenKey={hasGoldenKey}
               onOpenEditor={() => setIsEditorOpen(true)}
+              config={config}
             />
           )}
 
+          {/* Scene Render Switcher */}
           <main className="relative z-10 min-h-screen">
             {currentScene === 0 && (
-              <LoadingScreen onComplete={handleNextScene} config={config} />
+              <LoadingScreen
+                config={config}
+                onComplete={() => setCurrentScene(1)}
+              />
             )}
+
             {currentScene === 1 && (
-              <CastleEntrance onNext={handleNextScene} />
+              <CastleEntrance
+                onNext={() => setCurrentScene(2)}
+              />
             )}
+
             {currentScene === 2 && (
-              <HeartQuestGame onCompleteKey={handleUnlockKey} />
+              <HeartQuestGame
+                onCompleteKey={() => {
+                  setHasGoldenKey(true);
+                  setCurrentScene(3);
+                }}
+              />
             )}
+
             {currentScene === 3 && (
-              <TreasureRoom onNext={handleNextScene} hasGoldenKey={hasGoldenKey} />
+              <TreasureRoom
+                hasGoldenKey={hasGoldenKey}
+                onNext={() => setCurrentScene(4)}
+              />
             )}
+
             {currentScene === 4 && (
-              <TypewriterLetter onNext={handleNextScene} config={config} />
+              <TypewriterLetter
+                config={config}
+                onNext={() => setCurrentScene(5)}
+              />
             )}
+
             {currentScene === 5 && (
-              <MusicPlayer onNext={handleNextScene} config={config} />
+              <MusicPlayer
+                config={config}
+                onNext={() => setCurrentScene(6)}
+              />
             )}
+
             {currentScene === 6 && (
-              <PolaroidGallery onNext={handleNextScene} config={config} />
+              <PolaroidGallery
+                config={config}
+                onNext={() => setCurrentScene(7)}
+              />
             )}
+
             {currentScene === 7 && (
-              <BirthdayCake onNext={handleNextScene} config={config} />
+              <BirthdayCake
+                config={config}
+                onNext={() => setCurrentScene(8)}
+              />
             )}
+
             {currentScene === 8 && (
-              <EmotionalEnding onRestart={() => setCurrentScene(0)} config={config} />
+              <EmotionalEnding
+                config={config}
+                onNext={() => setCurrentScene(9)}
+              />
+            )}
+
+            {currentScene === 9 && (
+              <WishWall
+                config={config}
+                onRestart={() => setCurrentScene(0)}
+              />
             )}
           </main>
 
+          {/* Modal Editor */}
           <ConfigEditorModal
             isOpen={isEditorOpen}
             onClose={() => setIsEditorOpen(false)}
             config={config}
-            onSaveConfig={(newConfig) => setConfig(newConfig)}
-            onResetDefault={() => setConfig(defaultBirthdayConfig)}
+            onSaveConfig={handleSaveConfig}
+            onResetDefault={handleResetDefault}
           />
         </div>
       );
     }
 
-    // Render the App
+    // Render React Root
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
