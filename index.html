@@ -1,16 +1,1191 @@
-<!doctype html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thiệp Sinh Nhật Hoàng Gia & Cổ Tích Lãng Mạn</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thiệp Sinh Nhật Hoàng Gia & Cổ Tích Lãng Mạn</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['"Cinzel Decorative"', 'serif'],
+            handwritten: ['"Dancing Script"', 'cursive'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            royalPink: '#FF80AB',
+            lavenderMist: '#D1C4E9',
+            goldAccent: '#FFD700',
+            deepVelvet: '#120024',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'spin-slow': 'spin 12s linear infinite',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            glow: {
+              '0%': { filter: 'drop-shadow(0 0 5px rgba(255,215,0,0.6))' },
+              '100%': { filter: 'drop-shadow(0 0 20px rgba(255,215,0,1))' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18, ReactDOM 18, Babel Standalone & Canvas Confetti CDNs -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Custom Scrollbar & Animations */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(18, 0, 36, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #FF80AB;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FFD700;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .glass-card-light {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 128, 171, 0.3);
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF5C0 0%, #FFD700 50%, #FFA500 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .pink-gradient-text {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FF80AB 50%, #FF4081 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .polaroid-shadow {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-[#0D021A] text-white antialiased selection:bg-pink-500 selection:text-white">
+  <div id="root"></div>
+
+  <!-- Main Standalone Application Script compiled by Babel -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo } = React;
+
+    // --- DEFAULT CONFIGURATION ---
+    const defaultBirthdayConfig = {
+      recipientName: "My Princess",
+      senderName: "Your Forever Love",
+      birthdayDate: "07 August 2026",
+      ageNumber: 20,
+      ageTitle: "Tuổi 20 Rạng Rỡ & Ngọt Ngào",
+      theme: {
+        primaryColor: "#FF80AB",
+        secondaryColor: "#D1C4E9",
+        accentGold: "#FFD700",
+        fontFamilyHeading: "'Cinzel Decorative', serif",
+        fontFamilyHandwritten: "'Dancing Script', cursive",
+        fontFamilyBody: "'Plus Jakarta Sans', sans-serif",
+      },
+      letter: {
+        title: "To My Dearest Princess & Soulmate",
+        paragraphs: [
+          "Happy Birthday, my love! On this magical day, August 7th, 2026, the stars aligned to bring the most beautiful soul into my world.",
+          "Every single moment spent with you feels like stepping straight into a dreamy fairytale. Your laughter is my favorite song, your smile is my brightest light, and your gentle heart is my happiest home.",
+          "Thank you for filling my days with warmth, endless joy, and magical memories that I will treasure forever. No matter how many birthdays pass, my love for you grows deeper with every beat of my heart.",
+          "May this new chapter bring you infinite happiness, magical dreams fulfilled, laughter that warms your soul, and all the sweetness you truly deserve."
+        ],
+        closing: "With all my heart and eternal love,",
+        signature: "Yours Forever & Always ❤️",
+        typewriterSpeedMs: 38,
+      },
+      playlist: [
+        {
+          id: "track-1",
+          title: "Fairytale Waltz of Love",
+          artist: "Magical Symphony",
+          cover: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80",
+          audioUrl: "synth-romantic-waltz",
+          duration: "03:45",
+          lyricsQuote: "Like stars in the night sky, your love shines forever bright."
+        },
+        {
+          id: "track-2",
+          title: "Golden Hogwarts Stars",
+          artist: "Dreamy Serenade",
+          cover: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80",
+          audioUrl: "synth-starlight-lullaby",
+          duration: "04:12",
+          lyricsQuote: "In every magical universe, I would choose you again and again."
+        },
+        {
+          id: "track-3",
+          title: "Forever Princess Symphony",
+          artist: "Enchanted Strings",
+          cover: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80",
+          audioUrl: "synth-princess-theme",
+          duration: "03:30",
+          lyricsQuote: "Thank you for existing and making every day a fairytale."
+        }
+      ],
+      photos: [
+        {
+          id: "p1",
+          title: "Under the Magical Stars",
+          date: "Our Unforgettable Night",
+          image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80",
+          caption: "When I looked into your eyes, I saw my entire future shining back at me.",
+          rotation: -3,
+          location: "Starlight Garden",
+          tags: ["Fairytale", "Magical", "Memories"]
+        },
+        {
+          id: "p2",
+          title: "Sweet Laughs & Coffee",
+          date: "Our Favorite Cozy Afternoon",
+          image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80",
+          caption: "Your smile can instantly illuminate the darkest days.",
+          rotation: 2.5,
+          location: "Cozy Café",
+          tags: ["Laughter", "Joy", "Together"]
+        },
+        {
+          id: "p3",
+          title: "Hand in Hand Forever",
+          date: "Romantic Walk",
+          image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80",
+          caption: "Holding your hand is my favorite place in the whole wide world.",
+          rotation: -2,
+          location: "Sunset Promenade",
+          tags: ["Romance", "Love", "Forever"]
+        },
+        {
+          id: "p4",
+          title: "Princess Moment",
+          date: "Celebration Day",
+          image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
+          caption: "You will always be the crowned princess of my heart.",
+          rotation: 3,
+          location: "Fairytale Kingdom",
+          tags: ["Princess", "Golden", "Dream"]
+        },
+        {
+          id: "p5",
+          title: "Sparks & Fireworks",
+          date: "New Year Wish",
+          image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80",
+          caption: "Every firework in the sky pales in comparison to your inner glow.",
+          rotation: -1.5,
+          location: "Celebration Tower",
+          tags: ["Sparkles", "Celebration"]
+        },
+        {
+          id: "p6",
+          title: "A Promise of Always",
+          date: "Unconditional Love",
+          image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=80",
+          caption: "I promise to cherish you, protect your smile, and hold you close forever.",
+          rotation: 2,
+          location: "Rose Castle",
+          tags: ["Promise", "Eternity"]
+        }
+      ],
+      loveMeterMessages: [
+        "Analyzing Heartbeat Resonance...",
+        "Scanning Sweet Smiles...",
+        "Measuring Hug Comfort Level...",
+        "Counting Infinite Kisses...",
+        "Calculating Soulmate Synchronicity...",
+        "WARNING: Love levels exceeding safe thresholds!",
+        "CRITICAL: Heart storage overload! ❤️",
+        "9999999999% LOVE OVERFLOW ATTAINED!"
+      ],
+      finalSurprise: {
+        portraitUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80",
+        quoteTitle: "You Are My Happily Ever After",
+        quoteBody: "If I had a single flower for every time I thought of you, I could walk through my garden forever. Happy Birthday, my beautiful princess!",
+        specialPromise: "I promise to love you, cherish you, and bring magic into your life every single day."
+      }
+    };
+
+    // --- LUCIDE SVG ICONS COMPONENT ---
+    const LucideIcons = {
+      Heart: <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
+      Key: <path d="m21 2-2 2m-1.5 1.5L14 9.5a5 5 0 1 0 2 2l3.5-3.5M19 5l2 2" />,
+      Sparkles: <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />,
+      Lock: <g><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></g>,
+      Unlock: <g><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></g>,
+      Play: <polygon points="6 3 20 12 6 21 6 3" />,
+      Pause: <g><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></g>,
+      Music: <g><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></g>,
+      Volume2: <g><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></g>,
+      VolumeX: <g><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></g>,
+      Camera: <g><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></g>,
+      Calendar: <g><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></g>,
+      MapPin: <g><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></g>,
+      Award: <g><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></g>,
+      Check: <polyline points="20 6 9 17 4 12" />,
+      Settings: <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />,
+      Moon: <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />,
+      Sun: <g><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M18.66 5.34l-1.41 1.41"/></g>,
+      RefreshCw: <g><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></g>,
+      ChevronLeft: <polyline points="15 18 9 12 15 6" />,
+      ChevronRight: <polyline points="9 18 15 12 9 6" />,
+      Download: <g><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></g>,
+      Plus: <path d="M12 5v14M5 12h14" />,
+      Trash2: <g><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></g>,
+      Save: <g><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></g>,
+      Share2: <g><circle cx="18" cy="5" r="3"/><path d="M6 12 18 5M6 12l12 7"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/></g>,
+      Send: <g><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></g>,
+      Quote: <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h3c0 3-1 6-4 8zM15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h3c0 3-1 6-4 8z"/>,
+      Disc: <g><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></g>,
+      SkipBack: <g><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></g>,
+      SkipForward: <g><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></g>,
+      Star: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />,
+      Gift: <g><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></g>,
+      Coffee: <g><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></g>,
+      Plane: <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.2c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z" />,
+      Info: <g><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></g>,
+      X: <g><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></g>,
+      Edit3: <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />,
+      Image: <g><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></g>
+    };
+
+    function Icon({ name, className = "w-5 h-5", size, ...props }) {
+      const content = LucideIcons[name] || LucideIcons.Sparkles;
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size || "24"}
+          height={size || "24"}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          {...props}
+        >
+          {content}
+        </svg>
+      );
+    }
+
+    // --- WEB AUDIO SYNTHESIZER ENGINE ---
+    class AudioSynthEngine {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.timer = null;
+        this.currentTrack = null;
+      }
+
+      initCtx() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playNote(freq, duration, type = 'sine', gainVal = 0.15) {
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          
+          gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch(e) {}
+      }
+
+      playTypewriterClick() {
+        this.initCtx();
+        this.playNote(800 + Math.random() * 200, 0.04, 'triangle', 0.05);
+      }
+
+      playMagicSparkle() {
+        this.initCtx();
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => {
+            this.playNote(freq, 0.3, 'sine', 0.1);
+          }, idx * 60);
+        });
+      }
+
+      startMelody(presetName) {
+        this.stop();
+        this.initCtx();
+        this.isPlaying = true;
+        this.currentTrack = presetName;
+
+        const melodies = {
+          'synth-romantic-waltz': [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 329.63, 293.66],
+          'synth-starlight-lullaby': [392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 523.25],
+          'synth-princess-theme': [523.25, 659.25, 783.99, 880.00, 783.99, 659.25, 523.25]
+        };
+
+        const notes = melodies[presetName] || melodies['synth-romantic-waltz'];
+        let step = 0;
+
+        this.timer = setInterval(() => {
+          if (!this.isPlaying) return;
+          const note = notes[step % notes.length];
+          this.playNote(note, 0.8, 'sine', 0.12);
+          this.playNote(note * 0.5, 1.2, 'triangle', 0.05);
+          step++;
+        }, 600);
+      }
+
+      stop() {
+        this.isPlaying = false;
+        if (this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }
+      }
+    }
+
+    const audioSynth = new AudioSynthEngine();
+
+    // --- PARTICLE BACKGROUND CANVAS ---
+    function ParticleCanvas() {
+      const canvasRef = useRef(null);
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+
+        const resizeCanvas = () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = Array.from({ length: 45 }).map(() => ({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 2.5 + 0.5,
+          color: Math.random() > 0.4 ? '#FF80AB' : '#FFD700',
+          vy: -(Math.random() * 0.5 + 0.2),
+          vx: (Math.random() - 0.5) * 0.4,
+          alpha: Math.random() * 0.8 + 0.2,
+          pulse: Math.random() * 0.02 + 0.005
+        }));
+
+        const render = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach(p => {
+            p.y += p.vy;
+            p.x += p.vx;
+            p.alpha += Math.sin(Date.now() * p.pulse) * 0.01;
+
+            if (p.y < -10) {
+              p.y = canvas.height + 10;
+              p.x = Math.random() * canvas.width;
+            }
+
+            ctx.save();
+            ctx.globalAlpha = Math.max(0.1, Math.min(1, p.alpha));
+            ctx.fillStyle = p.color;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          });
+
+          animationFrameId = requestAnimationFrame(render);
+        };
+
+        render();
+
+        return () => {
+          window.removeEventListener('resize', resizeCanvas);
+          cancelAnimationFrame(animationFrameId);
+        };
+      }, []);
+
+      return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 w-full h-full" />;
+    }
+
+    // --- HEADER NAVIGATION ---
+    function HeaderNav({ currentScene, totalScenes, onSelectScene, isDarkMode, onToggleDarkMode, hasGoldenKey, onOpenEditor }) {
+      return (
+        <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between glass-card border-b border-pink-500/20">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-400 p-[2px]">
+              <div className="w-full h-full rounded-full bg-purple-950 flex items-center justify-center text-pink-300 font-bold text-sm">
+                👑
+              </div>
+            </div>
+            <span className="font-heading text-sm md:text-base font-bold gold-gradient-text tracking-wide hidden sm:inline">
+              Royal Birthday
+            </span>
+          </div>
+
+          {/* Quick Scene Buttons */}
+          <div className="flex items-center space-x-1 sm:space-x-2 bg-purple-950/60 p-1 rounded-full border border-pink-500/30">
+            {Array.from({ length: totalScenes }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => onSelectScene(idx)}
+                title={`Cảnh ${idx + 1}`}
+                className={`w-7 h-7 rounded-full text-xs font-semibold transition-all duration-300 flex items-center justify-center ${
+                  currentScene === idx
+                    ? 'bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 shadow-lg scale-110 font-bold'
+                    : 'text-purple-300 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                {idx === 0 ? '✨' : idx}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center space-x-2">
+            {hasGoldenKey && (
+              <div className="flex items-center space-x-1 bg-yellow-500/20 px-2 py-1 rounded-full border border-yellow-400/50 text-xs text-yellow-300 animate-pulse">
+                <Icon name="Key" className="w-3.5 h-3.5" />
+                <span className="hidden md:inline font-medium">Chìa Khóa Vàng</span>
+              </div>
+            )}
+
+            <button
+              onClick={onOpenEditor}
+              className="p-2 rounded-full bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 border border-pink-500/40 transition-all"
+              title="Chỉnh Sửa Thiệp"
+            >
+              <Icon name="Settings" className="w-4 h-4" />
+            </button>
+          </div>
+        </header>
+      );
+    }
+
+    // --- SCENE 0: LOADING SCREEN ---
+    function LoadingScreen({ onComplete, config }) {
+      const [progress, setProgress] = useState(0);
+
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setProgress(prev => {
+            if (prev >= 100) {
+              clearInterval(timer);
+              return 100;
+            }
+            return prev + 2;
+          });
+        }, 40);
+
+        return () => clearInterval(timer);
+      }, []);
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center relative z-10">
+          <div className="relative mb-8">
+            <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-400 p-1 animate-spin-slow">
+              <div className="w-full h-full rounded-full bg-purple-950 flex items-center justify-center">
+                <span className="text-4xl">👑</span>
+              </div>
+            </div>
+            <div className="absolute inset-0 rounded-full animate-ping bg-pink-500/20 -z-10" />
+          </div>
+
+          <h1 className="font-heading text-2xl md:text-4xl font-bold gold-gradient-text mb-2">
+            {config.recipientName}
+          </h1>
+          <p className="font-handwritten text-xl text-pink-300 mb-8">
+            {config.ageTitle}
+          </p>
+
+          <div className="w-full max-w-md bg-purple-950/80 rounded-full h-3 border border-pink-500/30 overflow-hidden mb-4 p-[2px]">
+            <div
+              className="h-full bg-gradient-to-r from-pink-500 to-yellow-400 rounded-full transition-all duration-200 shadow-glow"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+
+          <p className="text-xs text-purple-300 mb-8 font-mono">
+            Đang chuẩn bị vương quốc cổ tích... {progress}%
+          </p>
+
+          {progress === 100 && (
+            <button
+              onClick={() => {
+                audioSynth.playMagicSparkle();
+                onComplete();
+              }}
+              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all animate-bounce"
+            >
+              Mở Cổng Hoàng Gia ✨
+            </button>
+          )}
+        </div>
+      );
+    }
+
+    // --- SCENE 1: CASTLE ENTRANCE ---
+    function CastleEntrance({ onNext }) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center">
+          <div className="max-w-2xl glass-card p-8 md:p-12 rounded-3xl border border-pink-500/30 shadow-2xl relative overflow-hidden">
+            <div className="text-6xl mb-6 animate-float">🏰</div>
+            <h2 className="font-heading text-3xl md:text-5xl font-bold gold-gradient-text mb-4">
+              Vương Quốc Hoàng Gia
+            </h2>
+            <p className="text-purple-200 text-base md:text-lg mb-8 leading-relaxed">
+              Chào mừng Công Chúa bước vào lâu đài cổ tích! Nơi đây cất giữ những kỷ niệm ngọt ngào, những giai điệu du dương và chìa khóa dẫn tới kho báu bí mật.
+            </p>
+
+            <button
+              onClick={() => {
+                audioSynth.playMagicSparkle();
+                onNext();
+              }}
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center space-x-2 mx-auto"
+            >
+              <span>Thử Thách Tìm Chìa Khóa Vàng</span>
+              <Icon name="Sparkles" className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // --- SCENE 2: HEART QUEST GAME ---
+    function HeartQuestGame({ onCompleteKey }) {
+      const [foundHearts, setFoundHearts] = useState([]);
+      const totalHearts = 5;
+
+      const heartPositions = [
+        { id: 1, top: '25%', left: '20%', hint: 'Bông hoa hồng kỳ diệu' },
+        { id: 2, top: '35%', left: '75%', hint: 'Đỉnh tháp cổ kính' },
+        { id: 3, top: '65%', left: '30%', hint: 'Dòng suối lấp lánh' },
+        { id: 4, top: '70%', left: '80%', hint: 'Khu vườn hoàng gia' },
+        { id: 5, top: '50%', left: '50%', hint: 'Trái tim trung tâm' },
+      ];
+
+      const handleCollectHeart = (id) => {
+        if (!foundHearts.includes(id)) {
+          audioSynth.playMagicSparkle();
+          const updated = [...foundHearts, id];
+          setFoundHearts(updated);
+        }
+      };
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center relative">
+          <div className="mb-6">
+            <h2 className="font-heading text-2xl md:text-4xl font-bold gold-gradient-text mb-2">
+              Nhiệm Vụ Thu Thập Trái Tim Vàng
+            </h2>
+            <p className="text-pink-300 text-sm md:text-base">
+              Tìm đủ {totalHearts} trái tim ẩn giấu để ghép lại Chìa Khóa Vàng ({foundHearts.length}/{totalHearts})
+            </p>
+          </div>
+
+          <div className="w-full max-w-3xl h-[420px] glass-card rounded-3xl relative overflow-hidden border border-pink-500/30 p-4">
+            <div className="absolute inset-0 bg-gradient-to-b from-purple-950/40 to-pink-950/40 pointer-events-none" />
+
+            {/* Hidden Hearts */}
+            {heartPositions.map((h) => {
+              const isFound = foundHearts.includes(h.id);
+              return (
+                <button
+                  key={h.id}
+                  onClick={() => handleCollectHeart(h.id)}
+                  style={{ top: h.top, left: h.left }}
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 p-3 rounded-full transition-all duration-300 ${
+                    isFound
+                      ? 'bg-yellow-400 text-purple-950 scale-125 shadow-glow ring-4 ring-yellow-300'
+                      : 'bg-pink-500/30 text-pink-300 hover:scale-125 hover:bg-pink-500/60 animate-bounce'
+                  }`}
+                >
+                  <Icon name="Heart" className="w-6 h-6 fill-current" />
+                </button>
+              );
+            })}
+          </div>
+
+          {foundHearts.length === totalHearts && (
+            <div className="mt-6 animate-fade-in">
+              <button
+                onClick={() => {
+                  audioSynth.playMagicSparkle();
+                  onCompleteKey();
+                }}
+                className="px-8 py-4 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 text-purple-950 font-bold text-lg shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center space-x-2 animate-bounce"
+              >
+                <Icon name="Key" className="w-6 h-6" />
+                <span>Nhận Chìa Khóa Vàng & Vào Mở Rương</span>
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // --- SCENE 3: TREASURE ROOM ---
+    function TreasureRoom({ onNext, hasGoldenKey }) {
+      const [isOpen, setIsOpen] = useState(false);
+
+      const handleOpenChest = () => {
+        if (!hasGoldenKey) return;
+        audioSynth.playMagicSparkle();
+        setIsOpen(true);
+        if (window.confetti) {
+          window.confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        }
+      };
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center">
+          <div className="max-w-2xl glass-card p-8 md:p-12 rounded-3xl border border-yellow-500/30 text-center relative">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold gold-gradient-text mb-4">
+              Phòng Báu Vật Cổ Tích
+            </h2>
+
+            <div className="my-8 relative">
+              <div className="text-8xl transition-transform duration-500 transform hover:scale-110 cursor-pointer" onClick={handleOpenChest}>
+                {isOpen ? '👑' : '🎁'}
+              </div>
+            </div>
+
+            {!isOpen ? (
+              <div>
+                <p className="text-purple-200 mb-6">
+                  {hasGoldenKey
+                    ? 'Bạn đã có Chìa Khóa Vàng! Mở rương báu ngay nào!'
+                    : 'Rương báu đang khóa. Bạn cần hoàn thành trò chơi thu thập trái tim để lấy chìa khóa!'}
+                </p>
+                <button
+                  onClick={handleOpenChest}
+                  disabled={!hasGoldenKey}
+                  className={`px-8 py-3.5 rounded-full font-bold text-lg transition-all ${
+                    hasGoldenKey
+                      ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-purple-950 shadow-xl hover:scale-105 active:scale-95'
+                      : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  Tra Chìa Khóa Vàng
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="p-4 bg-pink-500/20 rounded-2xl border border-pink-500/40">
+                  <h3 className="text-xl font-bold text-pink-300 mb-2">🎉 Báu Vật Đã Được Giải Mã!</h3>
+                  <p className="text-purple-200 text-sm">
+                    Tình yêu thương vô tận và Bức Thư Tình Hoàng Gia dành riêng cho Công Chúa đã sẵn sàng!
+                  </p>
+                </div>
+
+                <button
+                  onClick={onNext}
+                  className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+                >
+                  Đọc Thư Tình Hoàng Gia ✨
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // --- SCENE 4: TYPEWRITER LETTER ---
+    function TypewriterLetter({ onNext, config }) {
+      const [textIndex, setTextIndex] = useState(0);
+      const [isDone, setIsDone] = useState(false);
+
+      const fullText = useMemo(() => config.letter.paragraphs.join("\n\n"), [config]);
+
+      useEffect(() => {
+        if (textIndex < fullText.length) {
+          const timer = setTimeout(() => {
+            setTextIndex(prev => prev + 1);
+            if (textIndex % 3 === 0) {
+              audioSynth.playTypewriterClick();
+            }
+          }, config.letter.typewriterSpeedMs || 35);
+          return () => clearTimeout(timer);
+        } else {
+          setIsDone(true);
+        }
+      }, [textIndex, fullText, config]);
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24">
+          <div className="w-full max-w-2xl glass-card p-6 md:p-10 rounded-3xl border border-pink-500/30 relative shadow-2xl">
+            <div className="text-center mb-6">
+              <h2 className="font-heading text-2xl md:text-3xl font-bold gold-gradient-text">
+                {config.letter.title}
+              </h2>
+            </div>
+
+            <div className="bg-purple-950/50 p-6 rounded-2xl border border-pink-500/20 font-handwritten text-xl md:text-2xl text-pink-100 leading-relaxed whitespace-pre-wrap min-h-[220px]">
+              {fullText.slice(0, textIndex)}
+              {!isDone && <span className="animate-pulse text-yellow-400">|</span>}
+            </div>
+
+            {isDone && (
+              <div className="mt-8 text-right space-y-1 font-handwritten text-xl text-yellow-300">
+                <p>{config.letter.closing}</p>
+                <p className="font-bold text-2xl">{config.letter.signature}</p>
+              </div>
+            )}
+
+            <div className="mt-8 text-center">
+              <button
+                onClick={onNext}
+                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+              >
+                Tiếp Tục Đợi Nhạc Âm Cầm 🎵
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // --- SCENE 5: MUSIC PLAYER ---
+    function MusicPlayer({ onNext, config }) {
+      const [isPlaying, setIsPlaying] = useState(false);
+      const [currentTrackIdx, setCurrentTrackIdx] = useState(0);
+
+      const track = config.playlist[currentTrackIdx] || config.playlist[0];
+
+      const togglePlay = () => {
+        if (isPlaying) {
+          audioSynth.stop();
+          setIsPlaying(false);
+        } else {
+          audioSynth.startMelody(track.audioUrl);
+          setIsPlaying(true);
+        }
+      };
+
+      const handleNextTrack = () => {
+        const nextIdx = (currentTrackIdx + 1) % config.playlist.length;
+        setCurrentTrackIdx(nextIdx);
+        if (isPlaying) {
+          audioSynth.startMelody(config.playlist[nextIdx].audioUrl);
+        }
+      };
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20">
+          <div className="w-full max-w-md glass-card p-8 rounded-3xl border border-pink-500/30 text-center relative">
+            <h2 className="font-heading text-2xl font-bold gold-gradient-text mb-6">
+              Đĩa Nhạc Cổ Tích
+            </h2>
+
+            {/* Vinyl Record */}
+            <div className="relative w-48 h-48 mx-auto mb-6">
+              <div className={`w-full h-full rounded-full bg-black border-4 border-yellow-500/40 p-2 shadow-2xl ${isPlaying ? 'animate-spin-slow' : ''}`}>
+                <img
+                  src={track.cover}
+                  alt={track.title}
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </div>
+              <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-purple-950 border-2 border-yellow-400 flex items-center justify-center text-xs text-yellow-300">
+                ✨
+              </div>
+            </div>
+
+            <h3 className="text-xl font-bold text-white mb-1">{track.title}</h3>
+            <p className="text-sm text-pink-300 mb-6">{track.artist}</p>
+
+            <div className="flex items-center justify-center space-x-6 mb-8">
+              <button
+                onClick={togglePlay}
+                className="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500 to-yellow-400 text-purple-950 flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all"
+              >
+                <Icon name={isPlaying ? "Pause" : "Play"} className="w-8 h-8 fill-current" />
+              </button>
+
+              <button
+                onClick={handleNextTrack}
+                className="p-3 rounded-full bg-purple-950/60 text-pink-300 border border-pink-500/30 hover:bg-pink-500/20"
+              >
+                <Icon name="SkipForward" className="w-6 h-6" />
+              </button>
+            </div>
+
+            <button
+              onClick={onNext}
+              className="w-full py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-base shadow-lg hover:scale-105 transition-all"
+            >
+              Xem Bộ Sưu Tập Ảnh 📸
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // --- SCENE 6: POLAROID GALLERY ---
+    function PolaroidGallery({ onNext, config }) {
+      const [flippedId, setFlippedId] = useState(null);
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24">
+          <h2 className="font-heading text-3xl font-bold gold-gradient-text mb-2 text-center">
+            Góc Kỷ Niệm Polaroid
+          </h2>
+          <p className="text-pink-300 text-sm mb-10 text-center">
+            Nhấn vào từng bức ảnh để xem lời nhắn ngọt ngào phía sau
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl w-full">
+            {config.photos.map((p) => {
+              const isFlipped = flippedId === p.id;
+              return (
+                <div
+                  key={p.id}
+                  onClick={() => setFlippedId(isFlipped ? null : p.id)}
+                  style={{ transform: `rotate(${p.rotation || 0}deg)` }}
+                  className="bg-white p-4 rounded-xl polaroid-shadow cursor-pointer transition-all duration-300 hover:scale-105 hover:z-20 text-gray-900 min-h-[340px] flex flex-col justify-between"
+                >
+                  {!isFlipped ? (
+                    <div>
+                      <div className="w-full h-52 overflow-hidden rounded-lg mb-3 bg-gray-100">
+                        <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                      </div>
+                      <h4 className="font-bold text-base text-gray-800">{p.title}</h4>
+                      <p className="text-xs text-gray-500">{p.date}</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col justify-center items-center h-full text-center p-4 bg-pink-50 rounded-lg">
+                      <p className="font-handwritten text-2xl text-pink-600 mb-4">{p.caption}</p>
+                      <span className="text-xs text-pink-400 font-semibold">{p.location}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-12">
+            <button
+              onClick={onNext}
+              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+            >
+              Thổi Nến Sinh Nhật 🎂
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // --- SCENE 7: BIRTHDAY CAKE & BLOW CANDLES ---
+    function BirthdayCake({ onNext, config }) {
+      const [candlesBlown, setCandlesBlown] = useState(false);
+
+      const handleBlowOut = () => {
+        if (candlesBlown) return;
+        audioSynth.playMagicSparkle();
+        setCandlesBlown(true);
+        if (window.confetti) {
+          window.confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+        }
+      };
+
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center">
+          <div className="max-w-md glass-card p-8 rounded-3xl border border-pink-500/30 w-full relative">
+            <h2 className="font-heading text-3xl font-bold gold-gradient-text mb-2">
+              Bánh Sinh Nhật Cổ Tích
+            </h2>
+            <p className="text-pink-300 text-sm mb-8">
+              Nhấn vào bánh để thổi nến và ước một điều ước nhé!
+            </p>
+
+            <div
+              onClick={handleBlowOut}
+              className="cursor-pointer my-8 p-6 bg-purple-950/40 rounded-2xl border border-pink-500/20 hover:scale-105 transition-all"
+            >
+              <div className="text-8xl mb-4">
+                {candlesBlown ? '🎂' : '🕯️🎂🕯️'}
+              </div>
+
+              {!candlesBlown ? (
+                <div className="inline-flex items-center space-x-2 bg-pink-500/20 px-4 py-2 rounded-full border border-pink-500/40 text-pink-300 text-sm animate-pulse">
+                  <span>Chạm vào đây để thổi nến!</span>
+                </div>
+              ) : (
+                <div className="text-yellow-300 font-bold text-lg animate-bounce">
+                  ✨ Lời ước đã được gửi tới các vì sao! ✨
+                </div>
+              )}
+            </div>
+
+            {candlesBlown && (
+              <button
+                onClick={onNext}
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 transition-all"
+              >
+                Xem Lời Chúc Cuối Cùng ❤️
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // --- SCENE 8: EMOTIONAL ENDING ---
+    function EmotionalEnding({ onRestart, config }) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 text-center">
+          <div className="max-w-2xl glass-card p-8 md:p-12 rounded-3xl border border-yellow-500/40 shadow-2xl">
+            <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 border-4 border-yellow-400 p-1">
+              <img
+                src={config.finalSurprise.portraitUrl}
+                alt={config.recipientName}
+                className="w-full h-full object-cover rounded-full"
+              />
+            </div>
+
+            <h2 className="font-heading text-3xl md:text-4xl font-bold gold-gradient-text mb-4">
+              {config.finalSurprise.quoteTitle}
+            </h2>
+
+            <p className="font-handwritten text-2xl text-pink-200 mb-6 leading-relaxed">
+              "{config.finalSurprise.quoteBody}"
+            </p>
+
+            <div className="p-4 bg-yellow-500/10 rounded-2xl border border-yellow-400/30 mb-8">
+              <p className="text-yellow-300 font-medium text-sm">
+                🌟 Lời Hứa Hoàng Gia: {config.finalSurprise.specialPromise}
+              </p>
+            </div>
+
+            <button
+              onClick={onRestart}
+              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all"
+            >
+              Xem Lại Từ Đầu ✨
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // --- CONFIG EDITOR MODAL ---
+    function ConfigEditorModal({ isOpen, onClose, config, onSaveConfig, onResetDefault }) {
+      if (!isOpen) return null;
+
+      const [edited, setEdited] = useState(JSON.parse(JSON.stringify(config)));
+
+      const handleSave = () => {
+        onSaveConfig(edited);
+        onClose();
+      };
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="w-full max-w-2xl glass-card p-6 rounded-3xl border border-pink-500/30 max-h-[85vh] overflow-y-auto text-white">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-pink-500/20">
+              <h3 className="font-heading text-xl font-bold gold-gradient-text">
+                Chỉnh Sửa Nội Dung Thiệp
+              </h3>
+              <button onClick={onClose} className="p-2 text-pink-300 hover:text-white">
+                <Icon name="X" className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-sm">
+              <div>
+                <label className="block text-xs font-semibold text-pink-300 mb-1">Tên Công Chúa / Người Nhận</label>
+                <input
+                  type="text"
+                  value={edited.recipientName}
+                  onChange={(e) => setEdited({ ...edited, recipientName: e.target.value })}
+                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-pink-300 mb-1">Tên Người Gửi</label>
+                <input
+                  type="text"
+                  value={edited.senderName}
+                  onChange={(e) => setEdited({ ...edited, senderName: e.target.value })}
+                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-pink-300 mb-1">Tiêu Đề Tuổi Mới</label>
+                <input
+                  type="text"
+                  value={edited.ageTitle}
+                  onChange={(e) => setEdited({ ...edited, ageTitle: e.target.value })}
+                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-pink-300 mb-1">Nội Dung Thư Tình</label>
+                <textarea
+                  rows={5}
+                  value={edited.letter.paragraphs.join("\n\n")}
+                  onChange={(e) => setEdited({
+                    ...edited,
+                    letter: { ...edited.letter, paragraphs: e.target.value.split("\n\n") }
+                  })}
+                  className="w-full px-4 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end space-x-3 mt-6 pt-4 border-t border-pink-500/20">
+              <button
+                onClick={onResetDefault}
+                className="px-4 py-2 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 text-xs font-bold"
+              >
+                Mặc Định
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-6 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-yellow-400 text-purple-950 font-bold text-sm shadow-lg hover:scale-105"
+              >
+                Lưu Thay Đổi
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // --- MAIN APP COMPONENT ---
+    function App() {
+      const [currentScene, setCurrentScene] = useState(0);
+      const [hasGoldenKey, setHasGoldenKey] = useState(false);
+      const [config, setConfig] = useState(defaultBirthdayConfig);
+      const [isEditorOpen, setIsEditorOpen] = useState(false);
+
+      const totalScenes = 9;
+
+      const handleNextScene = () => {
+        setCurrentScene((prev) => Math.min(totalScenes - 1, prev + 1));
+      };
+
+      const handleSelectScene = (sceneIdx) => {
+        setCurrentScene(sceneIdx);
+      };
+
+      const handleUnlockKey = () => {
+        setHasGoldenKey(true);
+        handleNextScene();
+      };
+
+      return (
+        <div className="min-h-screen relative font-sans select-none overflow-x-hidden">
+          <ParticleCanvas />
+
+          {currentScene > 0 && (
+            <HeaderNav
+              currentScene={currentScene}
+              totalScenes={totalScenes}
+              onSelectScene={handleSelectScene}
+              hasGoldenKey={hasGoldenKey}
+              onOpenEditor={() => setIsEditorOpen(true)}
+            />
+          )}
+
+          <main className="relative z-10 min-h-screen">
+            {currentScene === 0 && (
+              <LoadingScreen onComplete={handleNextScene} config={config} />
+            )}
+            {currentScene === 1 && (
+              <CastleEntrance onNext={handleNextScene} />
+            )}
+            {currentScene === 2 && (
+              <HeartQuestGame onCompleteKey={handleUnlockKey} />
+            )}
+            {currentScene === 3 && (
+              <TreasureRoom onNext={handleNextScene} hasGoldenKey={hasGoldenKey} />
+            )}
+            {currentScene === 4 && (
+              <TypewriterLetter onNext={handleNextScene} config={config} />
+            )}
+            {currentScene === 5 && (
+              <MusicPlayer onNext={handleNextScene} config={config} />
+            )}
+            {currentScene === 6 && (
+              <PolaroidGallery onNext={handleNextScene} config={config} />
+            )}
+            {currentScene === 7 && (
+              <BirthdayCake onNext={handleNextScene} config={config} />
+            )}
+            {currentScene === 8 && (
+              <EmotionalEnding onRestart={() => setCurrentScene(0)} config={config} />
+            )}
+          </main>
+
+          <ConfigEditorModal
+            isOpen={isEditorOpen}
+            onClose={() => setIsEditorOpen(false)}
+            config={config}
+            onSaveConfig={(newConfig) => setConfig(newConfig)}
+            onResetDefault={() => setConfig(defaultBirthdayConfig)}
+          />
+        </div>
+      );
+    }
+
+    // Render the App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
