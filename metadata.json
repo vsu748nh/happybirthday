@@ -1,6 +1,0 @@
-{
-  "name": "Magical Birthday Adventure",
-  "description": "A dreamy, romantic fairytale birthday web app with interactive mini-games, Polaroid photo memories, typewriter letter, cake celebration, fireworks, and music player.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
