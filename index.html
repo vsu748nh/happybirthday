@@ -158,13 +158,13 @@
       transition: all 0.15s ease;
     }
     .emoji-btn.active {
-      background: #ffde59;
+      background: #fbcfe8;
       box-shadow: 3px 3px 0px #32302c;
       transform: translate(-1px, -1px);
     }
 
     .submit-btn {
-      background: #ff7eb6;
+      background: #f472b6;
       color: white;
       border: 3px solid #32302c;
       padding: 0.85rem 1.75rem;
@@ -176,7 +176,7 @@
       transition: all 0.15s ease;
     }
     .submit-btn:hover {
-      background: #e85a9c;
+      background: #db2777;
     }
     .submit-btn:active {
       transform: translate(2px, 2px);
@@ -201,7 +201,7 @@
     }
   </style>
 </head>
-<body class="bg-[#fffeef] text-[#32302c] antialiased font-body selection:bg-yellow-400 selection:text-[#32302c]">
+<body class="bg-[#fdf2f8] text-[#32302c] antialiased font-body selection:bg-pink-300 selection:text-[#32302c]">
   <div id="root"></div>
 
   <!-- Main Standalone React Script compiled by Babel -->
@@ -212,6 +212,7 @@
     const defaultBirthdayConfig = {
       headerTitle: "Royal Birthday",
       headerIcon: "👑",
+      scene0Icon: "👑",
       recipientName: "Công Chúa Ngọt Ngào",
       senderName: "Người Luôn Yêu Thương Em",
       birthdayDate: "07 Tháng 8, 2026",
@@ -330,6 +331,16 @@
         quoteTitle: "Em Là Hạnh Phúc Mãi Mãi Của Anh",
         quoteBody: "Nếu anh có một bông hoa cho mỗi lần nghĩ về em, anh có thể đi dạo trong khu vườn yêu thương vĩnh cữu. Chúc mừng sinh nhật Công Chúa của anh!",
         specialPromise: "Anh hứa sẽ luôn đem lại tiếng cười, phép màu và tình yêu đong đầy cho em mỗi ngày."
+      },
+      wishWall: {
+        subTitle: "Bức Tường Lời Chúc Hoàng Gia",
+        title: "Gửi Ngàn Yêu Thương!",
+        badgeText: "Royal Party 👑",
+        initialWishes: [
+          { id: 1, sender: "Chàng Hoàng Tử", message: "Chúc Công Chúa xinh đẹp tuổi mới luôn rạng rỡ, hạnh phúc và tràn ngập tiếng cười!", icon: "💖", date: "Hôm nay" },
+          { id: 2, sender: "Bà Tiên Cổ Tích", message: "Hô biến cho mọi ước mơ của em đều trở thành hiện thực rực rỡ nhất!", icon: "✨", date: "Hôm nay" },
+          { id: 3, sender: "Những Vì Sao Đêm", message: "Luôn luôn tỏa sáng và là cô gái đáng yêu nhất vương quốc nhé!", icon: "👑", date: "Hôm nay" }
+        ]
       }
     };
 
@@ -569,7 +580,7 @@
             title="Bấm để chỉnh sửa Icon & Tiêu đề Header" 
             className="flex items-center space-x-2 md:space-x-3 hover:opacity-90 transition-all text-left cursor-pointer group"
           >
-            <div className="w-9 h-9 rounded-full bg-[#ffde59] border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c] flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-full bg-[#fbcfe8] border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c] flex items-center justify-center text-sm font-bold group-hover:scale-105 transition-transform">
               {icon}
             </div>
             <span className="font-playful text-xl sm:text-2xl font-bold text-[#e85a9c] tracking-wider whitespace-nowrap">
@@ -578,7 +589,7 @@
           </button>
 
           {/* Scene Selector Dots */}
-          <div className="flex items-center space-x-1 sm:space-x-1.5 bg-[#fffeef] p-1 rounded-full border-2 border-[#32302c] overflow-x-auto max-w-[200px] sm:max-w-none shadow-inner">
+          <div className="flex items-center space-x-1 sm:space-x-1.5 bg-[#fdf2f8] p-1 rounded-full border-2 border-[#32302c] overflow-x-auto max-w-[200px] sm:max-w-none shadow-inner">
             {Array.from({ length: totalScenes }).map((_, idx) => (
               <button
                 key={idx}
@@ -586,8 +597,8 @@
                 title={sceneLabels[idx] || `Cảnh ${idx + 1}`}
                 className={`w-7 h-7 rounded-full text-xs transition-all duration-200 flex items-center justify-center font-bold ${
                   currentScene === idx
-                    ? 'bg-[#ffde59] text-[#32302c] border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c] scale-110 font-bold'
-                    : 'text-[#32302c]/70 hover:text-[#32302c] hover:bg-yellow-200/50'
+                    ? 'bg-[#f472b6] text-white border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c] scale-110 font-bold'
+                    : 'text-[#32302c]/70 hover:text-[#32302c] hover:bg-pink-200/60'
                 }`}
               >
                 {idx === 0 ? '✨' : idx}
@@ -597,18 +608,18 @@
 
           <div className="flex items-center space-x-2">
             {hasGoldenKey && (
-              <div className="flex items-center space-x-1 bg-[#ffde59] px-2.5 py-1 rounded-full border-2 border-[#32302c] text-xs text-[#32302c] font-bold shadow-[2px_2px_0px_#32302c] animate-bounce">
-                <Icon name="Key" className="w-3.5 h-3.5" />
+              <div className="flex items-center space-x-1 bg-[#fbcfe8] px-2.5 py-1 rounded-full border-2 border-[#32302c] text-xs text-[#32302c] font-bold shadow-[2px_2px_0px_#32302c] animate-bounce">
+                <Icon name="Key" className="w-3.5 h-3.5 text-[#e85a9c]" />
                 <span className="hidden md:inline">Chìa Khóa Vàng</span>
               </div>
             )}
 
             <button
               onClick={onOpenEditor}
-              className="px-3 py-1.5 rounded-full bg-white hover:bg-yellow-100 text-[#32302c] border-2 border-[#32302c] transition-all text-xs font-bold flex items-center space-x-1.5 shadow-[2px_2px_0px_#32302c]"
+              className="px-3 py-1.5 rounded-full bg-white hover:bg-pink-100 text-[#32302c] border-2 border-[#32302c] transition-all text-xs font-bold flex items-center space-x-1.5 shadow-[2px_2px_0px_#32302c]"
               title="Chỉnh Sửa Tất Cả Nội Dung Thiệp"
             >
-              <Icon name="Settings" className="w-3.5 h-3.5" />
+              <Icon name="Settings" className="w-3.5 h-3.5 text-[#e85a9c]" />
               <span className="hidden sm:inline">Chỉnh Sửa Thiệp</span>
             </button>
           </div>
@@ -616,7 +627,7 @@
       );
     }
 
-    // --- SCENE 0: LOADING (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 0: LOADING (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function LoadingScreen({ onComplete, config }) {
       const [progress, setProgress] = useState(0);
 
@@ -635,13 +646,13 @@
       }, []);
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center relative z-10 bg-[#ffde59] text-[#32302c] overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center relative z-10 bg-[#fce7f3] text-[#32302c] overflow-hidden">
           <div className="dot-grid"></div>
 
           <div className="bg-white border-3 border-[#32302c] p-8 sm:p-10 rounded-3xl shadow-[8px_8px_0px_#32302c] max-w-lg w-full relative z-10 flex flex-col items-center">
             <div className="relative mb-6">
-              <div className="w-24 h-24 rounded-full bg-[#ffde59] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center">
-                <span className="text-4xl animate-bounce">👑</span>
+              <div className="w-24 h-24 rounded-full bg-[#fbcfe8] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center">
+                <span className="text-4xl animate-bounce">{config.scene0Icon || config.headerIcon || "👑"}</span>
               </div>
             </div>
 
@@ -651,13 +662,13 @@
             <h1 className="font-playful text-5xl sm:text-6xl font-bold text-[#32302c] mb-2 leading-none">
               {config.recipientName}
             </h1>
-            <p className="font-mono font-bold text-sm text-[#32302c]/80 mb-6 uppercase tracking-wider bg-yellow-200 px-3 py-1 rounded-full border border-[#32302c]">
+            <p className="font-mono font-bold text-sm text-[#831843] mb-6 uppercase tracking-wider bg-[#fbcfe8] px-3.5 py-1 rounded-full border border-[#32302c]">
               {config.ageTitle}
             </p>
 
-            <div className="w-full bg-[#fffeef] rounded-full h-5 border-2 border-[#32302c] overflow-hidden mb-3 p-0.5 shadow-inner">
+            <div className="w-full bg-[#fdf2f8] rounded-full h-5 border-2 border-[#32302c] overflow-hidden mb-3 p-0.5 shadow-inner">
               <div
-                className="h-full bg-[#ff7eb6] rounded-full transition-all duration-200 border-r-2 border-[#32302c]"
+                className="h-full bg-[#f472b6] rounded-full transition-all duration-200 border-r-2 border-[#32302c]"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -683,14 +694,14 @@
       );
     }
 
-    // --- SCENE 1: CASTLE ENTRANCE (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 1: CASTLE ENTRANCE (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function CastleEntrance({ onNext }) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fdf2f8] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
           <div className="max-w-2xl bg-white p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#ffde59] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center text-5xl animate-bounce">
+            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-[#fbcfe8] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center text-5xl animate-bounce">
               🏰
             </div>
             
@@ -719,7 +730,7 @@
       );
     }
 
-    // --- SCENE 2: MINI GAME (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 2: MINI GAME (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function HeartQuestGame({ onCompleteKey }) {
       const [foundHearts, setFoundHearts] = useState([]);
       const totalHearts = 5;
@@ -740,7 +751,7 @@
       };
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center relative bg-[#ffde59] text-[#32302c] overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center relative bg-[#fce7f3] text-[#32302c] overflow-hidden">
           <div className="dot-grid"></div>
 
           <div className="mb-4 relative z-10">
@@ -756,7 +767,7 @@
           </div>
 
           <div className="w-full max-w-3xl h-[400px] bg-white rounded-3xl relative overflow-hidden border-3 border-[#32302c] p-4 shadow-[8px_8px_0px_#32302c] z-10 my-2">
-            <div className="absolute inset-0 bg-[#fffeef]/60 pointer-events-none" />
+            <div className="absolute inset-0 bg-[#fdf2f8]/60 pointer-events-none" />
 
             {/* Hidden Hearts */}
             {heartPositions.map((h) => {
@@ -768,8 +779,8 @@
                   style={{ top: h.top, left: h.left }}
                   className={`absolute -translate-x-1/2 -translate-y-1/2 p-3.5 rounded-2xl border-2 border-[#32302c] transition-all duration-300 ${
                     isFound
-                      ? 'bg-[#ffde59] text-[#32302c] scale-125 shadow-[4px_4px_0px_#32302c] font-bold'
-                      : 'bg-pink-100 text-[#ff7eb6] hover:scale-125 animate-bounce shadow-[3px_3px_0px_#32302c]'
+                      ? 'bg-[#fbcfe8] text-[#831843] scale-125 shadow-[4px_4px_0px_#32302c] font-bold'
+                      : 'bg-pink-100 text-[#f472b6] hover:scale-125 animate-bounce shadow-[3px_3px_0px_#32302c]'
                   }`}
                 >
                   <Icon name="Heart" className="w-7 h-7 fill-current" />
@@ -796,7 +807,7 @@
       );
     }
 
-    // --- SCENE 3: MỞ HỘP QUÀ / BÁU VẬT (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 3: MỞ HỘP QUÀ / BÁU VẬT (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function TreasureRoom({ onNext, hasGoldenKey }) {
       const [isOpen, setIsOpen] = useState(false);
 
@@ -810,7 +821,7 @@
       };
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fdf2f8] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
           <div className="max-w-2xl bg-white p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] text-center relative z-10 my-auto">
@@ -824,7 +835,7 @@
             <div className="my-6 relative">
               <div
                 onClick={handleOpenChest}
-                className="w-28 h-28 mx-auto rounded-full bg-[#ffde59] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center text-6xl cursor-pointer hover:scale-110 transition-transform"
+                className="w-28 h-28 mx-auto rounded-full bg-[#fbcfe8] border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center text-6xl cursor-pointer hover:scale-110 transition-transform"
               >
                 {isOpen ? '👑' : '🎁'}
               </div>
@@ -847,7 +858,7 @@
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="p-5 bg-[#ffde59]/40 rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c]">
+                <div className="p-5 bg-[#fbcfe8]/60 rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c]">
                   <h3 className="font-playful text-2xl font-bold text-[#32302c] mb-1">🎉 Báu Vật Đã Được Giải Mã!</h3>
                   <p className="font-body text-sm font-medium text-[#32302c]">
                     Tình yêu thương vô tận và Bức Thư Tình Hoàng Gia dành riêng cho Công Chúa đã sẵn sàng!
@@ -868,7 +879,7 @@
       );
     }
 
-    // --- SCENE 4: LỜI CHÚC / THƯ TÌNH (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 4: LỜI CHÚC / THƯ TÌNH (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function TypewriterLetter({ onNext, config }) {
       const [textIndex, setTextIndex] = useState(0);
       const [isDone, setIsDone] = useState(false);
@@ -890,10 +901,10 @@
       }, [textIndex, fullText, config]);
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 bg-[#ffde59] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 bg-[#fce7f3] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
-          <div className="w-full max-w-2xl bg-[#fffeef] p-6 sm:p-10 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
+          <div className="w-full max-w-2xl bg-[#fdf2f8] p-6 sm:p-10 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
             <div className="text-center mb-4">
               <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
                 ROYAL LOVE LETTER
@@ -941,7 +952,7 @@
       return url;
     }
 
-    // --- SCENE 5: MUSIC PLAYER (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 5: MUSIC PLAYER (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function MusicPlayer({ onNext, config }) {
       const [isPlaying, setIsPlaying] = useState(false);
       const [currentTrackIdx, setCurrentTrackIdx] = useState(0);
@@ -1014,7 +1025,7 @@
       };
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 bg-[#fdf2f8] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
           <audio
@@ -1043,7 +1054,7 @@
             </h2>
 
             {/* Audio Source Badge */}
-            <div className="mb-4 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#ffde59] border-2 border-[#32302c] text-xs font-mono font-bold text-[#32302c] shadow-[2px_2px_0px_#32302c]">
+            <div className="mb-4 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#fbcfe8] border-2 border-[#32302c] text-xs font-mono font-bold text-[#32302c] shadow-[2px_2px_0px_#32302c]">
               <Icon name="Music" className="w-3.5 h-3.5 text-[#32302c]" />
               <span>
                 {isHttpAudio ? (audioError ? 'Synth Cổ Tích (Fallback)' : 'MP3 Trực Tuyến') : 'Synth Cổ Tích'}
@@ -1052,14 +1063,14 @@
 
             {/* Vinyl Record */}
             <div className="relative w-48 h-48 mx-auto mb-6">
-              <div className={`w-full h-full rounded-full bg-[#32302c] border-4 border-[#ffde59] p-2 shadow-xl ${isPlaying ? 'animate-spin-slow' : ''}`}>
+              <div className={`w-full h-full rounded-full bg-[#32302c] border-4 border-[#fbcfe8] p-2 shadow-xl ${isPlaying ? 'animate-spin-slow' : ''}`}>
                 <img
                   src={track.cover}
                   alt={track.title}
                   className="w-full h-full object-cover rounded-full border-2 border-[#32302c]"
                 />
               </div>
-              <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-[#ffde59] border-2 border-[#32302c] flex items-center justify-center text-xs font-bold text-[#32302c] shadow-md">
+              <div className="absolute inset-0 m-auto w-10 h-10 rounded-full bg-[#fbcfe8] border-2 border-[#32302c] flex items-center justify-center text-xs font-bold text-[#32302c] shadow-md">
                 ✨
               </div>
             </div>
@@ -1067,7 +1078,7 @@
             <h3 className="font-body font-bold text-xl text-[#32302c] mb-0.5">{track.title}</h3>
             <p className="font-mono text-xs font-bold text-[#e85a9c] mb-4">{track.artist}</p>
 
-            <p className="font-caption italic text-xs text-[#32302c] mb-6 bg-[#ffde59]/30 p-3 rounded-xl border-2 border-[#32302c] font-medium">
+            <p className="font-caption italic text-xs text-[#32302c] mb-6 bg-[#fbcfe8]/40 p-3 rounded-xl border-2 border-[#32302c] font-medium">
               "{track.lyricsQuote}"
             </p>
 
@@ -1086,7 +1097,7 @@
                       setCurrentTime(newTime);
                     }
                   }}
-                  className="w-full accent-[#ff7eb6] bg-[#ffde59] h-2 rounded-lg cursor-pointer border border-[#32302c]"
+                  className="w-full accent-[#f472b6] bg-[#fbcfe8] h-2 rounded-lg cursor-pointer border border-[#32302c]"
                 />
                 <div className="flex justify-between text-[10px] text-[#32302c] font-mono font-bold">
                   <span>{formatTime(currentTime)}</span>
@@ -1098,14 +1109,14 @@
             <div className="flex items-center justify-center space-x-4 mb-6">
               <button
                 onClick={togglePlay}
-                className="w-14 h-14 rounded-2xl bg-[#ff7eb6] text-white border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center hover:bg-[#e85a9c] active:translate-x-0.5 active:translate-y-0.5 transition-all"
+                className="w-14 h-14 rounded-2xl bg-[#f472b6] text-white border-3 border-[#32302c] shadow-[4px_4px_0px_#32302c] flex items-center justify-center hover:bg-[#db2777] active:translate-x-0.5 active:translate-y-0.5 transition-all"
               >
                 <Icon name={isPlaying ? "Pause" : "Play"} className="w-7 h-7 fill-current" />
               </button>
 
               <button
                 onClick={handleNextTrack}
-                className="w-12 h-12 rounded-2xl bg-[#ffde59] text-[#32302c] border-3 border-[#32302c] shadow-[3px_3px_0px_#32302c] flex items-center justify-center hover:bg-yellow-300 transition-all"
+                className="w-12 h-12 rounded-2xl bg-[#fbcfe8] text-[#32302c] border-3 border-[#32302c] shadow-[3px_3px_0px_#32302c] flex items-center justify-center hover:bg-pink-300 transition-all"
                 title="Bài Tiếp Theo"
               >
                 <Icon name="SkipForward" className="w-5 h-5" />
@@ -1123,12 +1134,12 @@
       );
     }
 
-    // --- SCENE 6: ALBUM ẢNH (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 6: ALBUM ẢNH (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function PolaroidGallery({ onNext, config }) {
       const [flippedId, setFlippedId] = useState(null);
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 bg-[#ffde59] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 bg-[#fce7f3] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
           <div className="text-center mb-8 relative z-10">
@@ -1155,14 +1166,14 @@
                 >
                   {!isFlipped ? (
                     <div>
-                      <div className="w-full h-48 overflow-hidden rounded-lg mb-3 border-2 border-[#32302c] bg-yellow-100">
+                      <div className="w-full h-48 overflow-hidden rounded-lg mb-3 border-2 border-[#32302c] bg-pink-100/60">
                         <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                       </div>
                       <h4 className="font-body font-bold text-base text-[#32302c] mb-0.5">{p.title}</h4>
                       <p className="font-mono text-xs text-[#e85a9c] font-bold">{p.date}</p>
                     </div>
                   ) : (
-                    <div className="flex flex-col justify-center items-center h-full text-center p-4 bg-[#fffeef] rounded-lg border-2 border-[#32302c]">
+                    <div className="flex flex-col justify-center items-center h-full text-center p-4 bg-[#fdf2f8] rounded-lg border-2 border-[#32302c]">
                       <p className="font-body font-medium text-sm text-[#32302c] mb-4 leading-relaxed">
                         "{p.caption}"
                       </p>
@@ -1187,7 +1198,7 @@
       );
     }
 
-    // --- SCENE 7: BÁNH SINH NHẬT (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 7: BÁNH SINH NHẬT (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function BirthdayCake({ onNext, config }) {
       const candleCount = 5;
       const [litCandles, setLitCandles] = useState([0, 1, 2, 3, 4]);
@@ -1208,7 +1219,7 @@
       const allBlown = litCandles.length === 0;
 
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fffeef] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fdf2f8] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
           <div className="max-w-lg bg-white p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] w-full relative z-10 my-auto">
@@ -1252,24 +1263,24 @@
               </div>
 
               {/* Cake Top Tier */}
-              <div className="w-44 h-12 bg-[#ffde59] rounded-t-3xl border-3 border-[#32302c] shadow-md flex items-center justify-center relative">
+              <div className="w-44 h-12 bg-[#fbcfe8] rounded-t-3xl border-3 border-[#32302c] shadow-md flex items-center justify-center relative">
                 <div className="bg-white text-[#32302c] font-bold px-3 py-0.5 rounded-full text-xs border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c]">
                   Tuổi {config.ageNumber}
                 </div>
               </div>
 
               {/* Cake Bottom Tier with Recipient Name */}
-              <div className="w-64 h-20 bg-[#ff7eb6] rounded-b-2xl border-3 border-[#32302c] shadow-xl flex flex-col items-center justify-center p-2 relative -mt-1 text-white">
+              <div className="w-64 h-20 bg-[#f472b6] rounded-b-2xl border-3 border-[#32302c] shadow-xl flex flex-col items-center justify-center p-2 relative -mt-1 text-white">
                 <span className="font-playful text-2xl font-bold text-white drop-shadow-md px-2 text-center truncate max-w-full">
                   Happy Birthday {config.recipientName}!
                 </span>
-                <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-yellow-200">
+                <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-pink-100">
                   ✨ {config.birthdayDate} ✨
                 </span>
               </div>
 
               {/* Plate */}
-              <div className="w-72 h-4 bg-[#ffde59] rounded-full shadow-lg -mt-1 border-2 border-[#32302c]" />
+              <div className="w-72 h-4 bg-[#fbcfe8] rounded-full shadow-lg -mt-1 border-2 border-[#32302c]" />
             </div>
 
             {/* Controls */}
@@ -1282,7 +1293,7 @@
                   <span>🌬️ Thổi Tắt Tất Cả Nến & Ước</span>
                 </button>
               ) : (
-                <div className="p-4 bg-[#ffde59] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] font-bold text-[#32302c] text-sm animate-bounce">
+                <div className="p-4 bg-[#fbcfe8] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] font-bold text-[#32302c] text-sm animate-bounce">
                   ✨ Nến đã được thổi tắt! Nguyện cầu ước mơ của Công Chúa thành hiện thực! ✨
                 </div>
               )}
@@ -1301,14 +1312,14 @@
       );
     }
 
-    // --- SCENE 8: KẾT THÚC (Playful Castle Variation - Vibrant Gold Theme) ---
+    // --- SCENE 8: KẾT THÚC (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function EmotionalEnding({ onNext, config }) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 text-center bg-[#ffde59] text-[#32302c] relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 py-24 text-center bg-[#fce7f3] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
 
-          <div className="max-w-2xl bg-[#fffeef] p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
-            <div className="w-28 h-28 rounded-full overflow-hidden mx-auto mb-4 border-3 border-[#32302c] p-1 bg-[#ffde59] shadow-[4px_4px_0px_#32302c]">
+          <div className="max-w-2xl bg-[#fdf2f8] p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
+            <div className="w-28 h-28 rounded-full overflow-hidden mx-auto mb-4 border-3 border-[#32302c] p-1 bg-[#fbcfe8] shadow-[4px_4px_0px_#32302c]">
               <img
                 src={config.finalSurprise.portraitUrl}
                 alt={config.recipientName}
@@ -1327,7 +1338,7 @@
               "{config.finalSurprise.quoteBody}"
             </p>
 
-            <div className="p-4 bg-[#ffde59] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] mb-8 font-bold text-[#32302c] text-sm">
+            <div className="p-4 bg-[#fbcfe8] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] mb-8 font-bold text-[#32302c] text-sm">
               🌟 Lời Hứa Hoàng Gia: {config.finalSurprise.specialPromise}
             </div>
 
@@ -1345,10 +1356,23 @@
 
     // --- SCENE 9: BỨC TƯỜNG LỜI CHÚC (Wish Wall / Guestbook - Playful Castle Variation) ---
     function WishWall({ config, onRestart }) {
+      const wishWallConfig = (config && config.wishWall) || {};
+      const subTitle = wishWallConfig.subTitle || "Bức Tường Lời Chúc Hoàng Gia";
+      const title = wishWallConfig.title || "Gửi Ngàn Yêu Thương!";
+      const badgeText = wishWallConfig.badgeText || "Royal Party 👑";
+      const defaultList = wishWallConfig.initialWishes || initialWishes;
+
       const [wishes, setWishes] = useState(() => {
         const saved = localStorage.getItem('royal_birthday_wishes');
-        return saved ? JSON.parse(saved) : initialWishes;
+        return saved ? JSON.parse(saved) : defaultList;
       });
+
+      useEffect(() => {
+        const saved = localStorage.getItem('royal_birthday_wishes');
+        if (!saved) {
+          setWishes(defaultList);
+        }
+      }, [config]);
 
       const [sender, setSender] = useState('');
       const [message, setMessage] = useState('');
@@ -1382,17 +1406,17 @@
       };
 
       return (
-        <div className="relative min-h-screen px-4 py-20 bg-[#ffde59] text-[#32302c] flex flex-col justify-between overflow-x-hidden">
+        <div className="relative min-h-screen px-4 py-20 bg-[#fce7f3] text-[#32302c] flex flex-col justify-between overflow-x-hidden">
           <div className="dot-grid"></div>
 
           <div className="max-w-6xl w-full mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start my-auto">
             {/* Form Side */}
             <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10">
               <span className="font-mono text-xs uppercase tracking-widest text-[#e85a9c] font-bold block mb-1">
-                Bức Tường Lời Chúc Hoàng Gia
+                {subTitle}
               </span>
-              <h2 className="font-playful text-5xl sm:text-6xl text-[#32302c] leading-none mb-3 font-bold">
-                Gửi Ngàn <br /> Yêu Thương!
+              <h2 className="font-playful text-5xl sm:text-6xl text-[#32302c] leading-none mb-3 font-bold whitespace-pre-line">
+                {title}
               </h2>
               <p className="text-[#32302c]/80 text-sm mb-6 leading-relaxed font-medium">
                 Hãy để lại lời chúc ngọt ngào dành tặng cho <strong className="text-[#e85a9c] font-bold">{config.recipientName}</strong> nhé!
@@ -1409,7 +1433,7 @@
                     placeholder="Tên bạn là gì nhỉ?..."
                     value={sender}
                     onChange={(e) => setSender(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-[#fffeef] border-2 border-[#32302c] text-[#32302c] placeholder-gray-400 focus:outline-none focus:border-[#e85a9c] font-body text-sm shadow-inner"
+                    className="w-full px-4 py-3 rounded-xl bg-[#fdf2f8] border-2 border-[#32302c] text-[#32302c] placeholder-gray-400 focus:outline-none focus:border-[#e85a9c] font-body text-sm shadow-inner"
                   />
                 </div>
 
@@ -1441,7 +1465,7 @@
                     placeholder={`Gửi những lời chúc ấm áp nhất tới ${config.recipientName}...`}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-[#fffeef] border-2 border-[#32302c] text-[#32302c] placeholder-gray-400 focus:outline-none focus:border-[#e85a9c] font-body text-sm shadow-inner"
+                    className="w-full px-4 py-3 rounded-xl bg-[#fdf2f8] border-2 border-[#32302c] text-[#32302c] placeholder-gray-400 focus:outline-none focus:border-[#e85a9c] font-body text-sm shadow-inner"
                   />
                 </div>
 
@@ -1465,13 +1489,13 @@
             </div>
 
             {/* Wall Side - Sticker Cards */}
-            <div className="lg:col-span-7 bg-[#fffeef] p-6 sm:p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] text-[#32302c] max-h-[620px] overflow-y-auto">
+            <div className="lg:col-span-7 bg-[#fdf2f8] p-6 sm:p-8 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] text-[#32302c] max-h-[620px] overflow-y-auto">
               <div className="flex items-center justify-between mb-6 pb-2 border-b-2 border-[#32302c]">
                 <span className="sticky-label font-mono font-bold text-xs sm:text-sm tracking-wider uppercase text-[#32302c]">
                   📌 DANH SÁCH LỜI CHÚC ({wishes.length})
                 </span>
                 <span className="font-playful text-2xl font-bold text-[#e85a9c]">
-                  Royal Party 👑
+                  {badgeText}
                 </span>
               </div>
 
@@ -1562,6 +1586,7 @@
                 { id: 'letter', label: 'Thư Tình' },
                 { id: 'photos', label: 'Album Ảnh' },
                 { id: 'playlist', label: 'Âm Nhạc' },
+                { id: 'wishwall', label: 'Lời Chúc (Cảnh 9)' },
                 { id: 'surprise', label: 'Báu Vật & Cuối' }
               ].map(tab => (
                 <button
@@ -1582,6 +1607,41 @@
               {/* TAB 1: BASIC INFO */}
               {activeTab === 'basic' && (
                 <div className="space-y-4">
+                  {/* Scene 0 Loading Screen Icon Box */}
+                  <div className="p-3.5 bg-purple-900/50 rounded-2xl border border-yellow-400/30 space-y-2.5">
+                    <div className="font-semibold text-yellow-300 text-xs flex items-center space-x-1.5">
+                      <span className="text-base">✨</span>
+                      <span>Icon Cảnh Mở Đầu (Scene 0 Loading Screen)</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2.5 items-center">
+                      <div className="col-span-1">
+                        <input
+                          type="text"
+                          value={edited.scene0Icon || "👑"}
+                          onChange={(e) => setEdited({ ...edited, scene0Icon: e.target.value })}
+                          className="w-full px-3 py-2 rounded-xl bg-purple-950/90 border border-pink-500/40 text-white text-center font-bold text-xl focus:outline-none focus:border-yellow-400"
+                          placeholder="👑"
+                        />
+                      </div>
+                      <div className="col-span-2 flex flex-wrap gap-1.5">
+                        {["👑", "🏰", "🎁", "💖", "🎂", "✨", "🌟", "🎀", "🦄", "🌸", "⭐", "🎉"].map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => setEdited({ ...edited, scene0Icon: emoji })}
+                            className={`w-7 h-7 rounded-lg text-xs flex items-center justify-center border transition-all ${
+                              (edited.scene0Icon || "👑") === emoji
+                                ? 'bg-yellow-400/30 border-yellow-400 scale-110 shadow-sm font-bold'
+                                : 'bg-purple-950/60 border-pink-500/20 hover:bg-purple-800/80'
+                            }`}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Header Title & Icon Box */}
                   <div className="p-3.5 bg-purple-900/50 rounded-2xl border border-yellow-400/30 space-y-2.5">
                     <div className="font-semibold text-yellow-300 text-xs flex items-center space-x-1.5">
@@ -1960,7 +2020,173 @@
                 </div>
               )}
 
-              {/* TAB 5: FINAL SURPRISE */}
+              {/* TAB 5: WISH WALL (SCENE 9) */}
+              {activeTab === 'wishwall' && (
+                <div className="space-y-4">
+                  <div className="p-3 bg-purple-900/40 rounded-xl border border-yellow-400/30 text-xs text-yellow-200 leading-relaxed">
+                    📌 <strong>Tùy chỉnh Bức Tường Lời Chúc (Cảnh 9):</strong> Bạn có thể thay đổi Tiêu đề, Dòng mô tả, Biểu tượng huy hiệu và các Lời chúc mặc định hiển thị trên tường.
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Tiêu Đề Nhỏ (Subtitle)</label>
+                      <input
+                        type="text"
+                        value={(edited.wishWall && edited.wishWall.subTitle) || "Bức Tường Lời Chúc Hoàng Gia"}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          wishWall: { ...(edited.wishWall || {}), subTitle: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400 font-medium"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Tiêu Đề Chính (Title)</label>
+                      <input
+                        type="text"
+                        value={(edited.wishWall && edited.wishWall.title) || "Gửi Ngàn Yêu Thương!"}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          wishWall: { ...(edited.wishWall || {}), title: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400 font-bold"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Huy Hiệu Góc Tường Lời Chúc (Badge Text)</label>
+                      <input
+                        type="text"
+                        value={(edited.wishWall && edited.wishWall.badgeText) || "Royal Party 👑"}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          wishWall: { ...(edited.wishWall || {}), badgeText: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400 font-medium"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-pink-500/20">
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="font-bold text-yellow-300 text-xs">Danh Sách Lời Chúc Mặc Định trên Tường</label>
+                      <button
+                        onClick={() => {
+                          const currentWishList = (edited.wishWall && edited.wishWall.initialWishes) || [];
+                          const newWishItem = {
+                            id: Date.now(),
+                            sender: "Người Mến Thương",
+                            message: "Chúc em tuổi mới luôn đong đầy niềm vui và may mắn!",
+                            icon: "💖",
+                            date: "Hôm nay"
+                          };
+                          setEdited({
+                            ...edited,
+                            wishWall: {
+                              ...(edited.wishWall || {}),
+                              initialWishes: [newWishItem, ...currentWishList]
+                            }
+                          });
+                        }}
+                        className="px-2.5 py-1 bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 rounded-lg border border-pink-500/40 text-[11px] font-btn font-medium flex items-center space-x-1"
+                      >
+                        <Icon name="Plus" className="w-3.5 h-3.5" />
+                        <span>Thêm Lời Chúc Mới</span>
+                      </button>
+                    </div>
+
+                    <div className="space-y-3">
+                      {((edited.wishWall && edited.wishWall.initialWishes) || []).map((wish, idx) => (
+                        <div key={wish.id || idx} className="p-3 bg-purple-950/60 rounded-xl border border-pink-500/20 space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="font-bold text-pink-300">Lời chúc #{idx + 1}</span>
+                            <button
+                              onClick={() => {
+                                const currentWishList = (edited.wishWall && edited.wishWall.initialWishes) || [];
+                                const updated = currentWishList.filter((_, i) => i !== idx);
+                                setEdited({
+                                  ...edited,
+                                  wishWall: { ...(edited.wishWall || {}), initialWishes: updated }
+                                });
+                              }}
+                              className="text-red-400 hover:text-red-300 p-1"
+                              title="Xóa lời chúc"
+                            >
+                              <Icon name="Trash2" className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-2">
+                            <div className="col-span-1">
+                              <label className="block text-[10px] text-pink-300 mb-0.5">Icon</label>
+                              <input
+                                type="text"
+                                value={wish.icon || "💖"}
+                                onChange={(e) => {
+                                  const currentWishList = [...((edited.wishWall && edited.wishWall.initialWishes) || [])];
+                                  currentWishList[idx] = { ...currentWishList[idx], icon: e.target.value };
+                                  setEdited({
+                                    ...edited,
+                                    wishWall: { ...(edited.wishWall || {}), initialWishes: currentWishList }
+                                  });
+                                }}
+                                className="w-full px-2 py-1 rounded bg-purple-900/60 border border-pink-500/20 text-white text-center font-bold"
+                              />
+                            </div>
+                            <div className="col-span-2">
+                              <label className="block text-[10px] text-pink-300 mb-0.5">Tên Người Gửi</label>
+                              <input
+                                type="text"
+                                value={wish.sender || ""}
+                                onChange={(e) => {
+                                  const currentWishList = [...((edited.wishWall && edited.wishWall.initialWishes) || [])];
+                                  currentWishList[idx] = { ...currentWishList[idx], sender: e.target.value };
+                                  setEdited({
+                                    ...edited,
+                                    wishWall: { ...(edited.wishWall || {}), initialWishes: currentWishList }
+                                  });
+                                }}
+                                className="w-full px-2 py-1 rounded bg-purple-900/60 border border-pink-500/20 text-white font-bold"
+                              />
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] text-pink-300 mb-0.5">Nội Dung Lời Chúc</label>
+                            <textarea
+                              rows={2}
+                              value={wish.message || ""}
+                              onChange={(e) => {
+                                const currentWishList = [...((edited.wishWall && edited.wishWall.initialWishes) || [])];
+                                currentWishList[idx] = { ...currentWishList[idx], message: e.target.value };
+                                setEdited({
+                                  ...edited,
+                                  wishWall: { ...(edited.wishWall || {}), initialWishes: currentWishList }
+                                });
+                              }}
+                              className="w-full px-2 py-1 rounded bg-purple-900/60 border border-pink-500/20 text-white"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        localStorage.removeItem('royal_birthday_wishes');
+                        alert("Đã cập nhật lại Tường Lời Chúc theo danh sách cấu hình mới!");
+                      }}
+                      className="w-full mt-3 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 rounded-xl border border-yellow-500/40 text-xs font-mono flex items-center justify-center space-x-1"
+                    >
+                      <span>🔄 Áp dụng Danh Sách Lời Chúc Mặc Định này lên Tường</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 6: FINAL SURPRISE */}
               {activeTab === 'surprise' && (
                 <div className="space-y-3">
                   <div>
