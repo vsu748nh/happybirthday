@@ -218,6 +218,16 @@
       birthdayDate: "07 Tháng 8, 2026",
       ageNumber: 20,
       ageTitle: "Tuổi 20 Rạng Rỡ & Cổ Tích",
+      cake: {
+        title: "Bánh Sinh Nhật Hoàng Gia",
+        subtitle: "Chạm vào từng ngọn nến hoặc nhấn nút dưới đây để thổi nến!",
+        ageBadgeText: "Tuổi 20",
+        mainText: "Happy Birthday Công Chúa Ngọt Ngào!",
+        dateText: "✨ 07 Tháng 8, 2026 ✨",
+        wishMessage: "✨ Nến đã được thổi tắt! Nguyện cầu ước mơ của Công Chúa thành hiện thực! ✨",
+        buttonBlowText: "🌬️ Thổi Tắt Tất Cả Nến & Ước",
+        buttonNextText: "Xem Lời Chúc & Viết Lời Chúc ❤️"
+      },
       theme: {
         primaryColor: "#FF80AB",
         secondaryColor: "#D1C4E9",
@@ -567,7 +577,7 @@
       const sceneLabels = [
         "Mở Đầu", "Lâu Đài", "Trò Chơi", "Rương Báu", 
         "Thư Tình", "Âm Nhạc", "Album Ảnh", "Bánh Sinh Nhật", 
-        "Kết Thúc", "Bức Tường Lời Chúc"
+        "Bức Tường Lời Chúc"
       ];
 
       const title = (config && config.headerTitle) || "Royal Birthday";
@@ -733,14 +743,15 @@
     // --- SCENE 2: MINI GAME (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function HeartQuestGame({ onCompleteKey }) {
       const [foundHearts, setFoundHearts] = useState([]);
-      const totalHearts = 5;
+      const totalHearts = 6;
 
       const heartPositions = [
-        { id: 1, top: '25%', left: '20%', hint: 'Bông hoa hồng kỳ diệu' },
-        { id: 2, top: '35%', left: '75%', hint: 'Đỉnh tháp cổ kính' },
-        { id: 3, top: '65%', left: '30%', hint: 'Dòng suối lấp lánh' },
-        { id: 4, top: '70%', left: '80%', hint: 'Khu vườn hoàng gia' },
+        { id: 1, top: '22%', left: '18%', hint: 'Bông hoa hồng kỳ diệu' },
+        { id: 2, top: '30%', left: '80%', hint: 'Đỉnh tháp cổ kính' },
+        { id: 3, top: '72%', left: '25%', hint: 'Dòng suối lấp lánh' },
+        { id: 4, top: '75%', left: '82%', hint: 'Khu vườn hoàng gia' },
         { id: 5, top: '50%', left: '50%', hint: 'Trái tim trung tâm' },
+        { id: 6, top: '25%', left: '48%', hint: 'Cổng chào vương quốc' },
       ];
 
       const handleCollectHeart = (id) => {
@@ -1200,8 +1211,8 @@
 
     // --- SCENE 7: BÁNH SINH NHẬT (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function BirthdayCake({ onNext, config }) {
-      const candleCount = 5;
-      const [litCandles, setLitCandles] = useState([0, 1, 2, 3, 4]);
+      const candleCount = 6;
+      const [litCandles, setLitCandles] = useState([0, 1, 2, 3, 4, 5]);
 
       const toggleCandle = (idx) => {
         audioSynth.playBlowOutSound();
@@ -1218,6 +1229,16 @@
 
       const allBlown = litCandles.length === 0;
 
+      const cakeCfg = (config && config.cake) || {};
+      const cakeTitle = cakeCfg.title || "Bánh Sinh Nhật Hoàng Gia";
+      const cakeSubtitle = cakeCfg.subtitle || "Chạm vào từng ngọn nến hoặc nhấn nút dưới đây để thổi nến!";
+      const ageBadgeText = cakeCfg.ageBadgeText || `Tuổi ${config.ageNumber || 20}`;
+      const cakeMainText = cakeCfg.mainText || `Happy Birthday ${config.recipientName || 'Công Chúa'}!`;
+      const cakeDateText = cakeCfg.dateText || (config.birthdayDate ? `✨ ${config.birthdayDate} ✨` : "✨ 07 Tháng 8 ✨");
+      const wishMessage = cakeCfg.wishMessage || "✨ Nến đã được thổi tắt! Nguyện cầu ước mơ của Công Chúa thành hiện thực! ✨";
+      const buttonBlowText = cakeCfg.buttonBlowText || "🌬️ Thổi Tắt Tất Cả Nến & Ước";
+      const buttonNextText = cakeCfg.buttonNextText || "Xem Lời Chúc & Viết Lời Chúc ❤️";
+
       return (
         <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 text-center bg-[#fdf2f8] text-[#32302c] relative overflow-hidden">
           <div className="dot-grid"></div>
@@ -1227,17 +1248,17 @@
               MAKE A WISH
             </span>
             <h2 className="font-playful text-4xl font-bold text-[#32302c] mb-2">
-              Bánh Sinh Nhật Hoàng Gia
+              {cakeTitle}
             </h2>
             <p className="font-body text-xs text-[#32302c]/80 mb-6 font-medium">
-              Chạm vào từng ngọn nến hoặc nhấn nút dưới đây để thổi nến!
+              {cakeSubtitle}
             </p>
 
             {/* Interactive Cake Visual */}
             <div className="my-6 relative py-4 flex flex-col items-center justify-center">
               
-              {/* Candles section */}
-              <div className="flex justify-center space-x-6 mb-1 z-10">
+              {/* Candles section (6 candles) */}
+              <div className="flex justify-center space-x-3 sm:space-x-4 mb-1 z-10">
                 {Array.from({ length: candleCount }).map((_, idx) => {
                   const isLit = litCandles.includes(idx);
                   return (
@@ -1248,39 +1269,39 @@
                       title="Chạm để thổi nến"
                     >
                       {/* Flame */}
-                      <div className={`w-4 h-6 rounded-full transition-all duration-300 ${
+                      <div className={`w-3.5 h-5 sm:w-4 sm:h-6 rounded-full transition-all duration-300 ${
                         isLit 
                           ? 'bg-gradient-to-t from-orange-500 via-yellow-300 to-white animate-flicker flame-glow scale-110' 
                           : 'bg-gray-400 scale-50 opacity-40'
                       }`} />
                       {/* Wick */}
-                      <div className="w-0.5 h-2 bg-[#32302c]" />
+                      <div className="w-0.5 h-1.5 sm:h-2 bg-[#32302c]" />
                       {/* Candle Body */}
-                      <div className="w-3.5 h-12 bg-[#ff7eb6] rounded-t-sm shadow-md border-2 border-[#32302c]" />
+                      <div className="w-3 sm:w-3.5 h-10 sm:h-12 bg-[#ff7eb6] rounded-t-sm shadow-md border-2 border-[#32302c]" />
                     </div>
                   );
                 })}
               </div>
 
               {/* Cake Top Tier */}
-              <div className="w-44 h-12 bg-[#fbcfe8] rounded-t-3xl border-3 border-[#32302c] shadow-md flex items-center justify-center relative">
+              <div className="w-48 sm:w-52 h-12 bg-[#fbcfe8] rounded-t-3xl border-3 border-[#32302c] shadow-md flex items-center justify-center relative">
                 <div className="bg-white text-[#32302c] font-bold px-3 py-0.5 rounded-full text-xs border-2 border-[#32302c] shadow-[2px_2px_0px_#32302c]">
-                  Tuổi {config.ageNumber}
+                  {ageBadgeText}
                 </div>
               </div>
 
               {/* Cake Bottom Tier with Recipient Name */}
-              <div className="w-64 h-20 bg-[#f472b6] rounded-b-2xl border-3 border-[#32302c] shadow-xl flex flex-col items-center justify-center p-2 relative -mt-1 text-white">
-                <span className="font-playful text-2xl font-bold text-white drop-shadow-md px-2 text-center truncate max-w-full">
-                  Happy Birthday {config.recipientName}!
+              <div className="w-68 sm:w-72 h-20 bg-[#f472b6] rounded-b-2xl border-3 border-[#32302c] shadow-xl flex flex-col items-center justify-center p-2 relative -mt-1 text-white">
+                <span className="font-playful text-xl sm:text-2xl font-bold text-white drop-shadow-md px-2 text-center truncate max-w-full">
+                  {cakeMainText}
                 </span>
-                <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-pink-100">
-                  ✨ {config.birthdayDate} ✨
+                <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase text-pink-100">
+                  {cakeDateText}
                 </span>
               </div>
 
               {/* Plate */}
-              <div className="w-72 h-4 bg-[#fbcfe8] rounded-full shadow-lg -mt-1 border-2 border-[#32302c]" />
+              <div className="w-76 sm:w-80 h-4 bg-[#fbcfe8] rounded-full shadow-lg -mt-1 border-2 border-[#32302c]" />
             </div>
 
             {/* Controls */}
@@ -1290,11 +1311,11 @@
                   onClick={blowAllCandles}
                   className="submit-btn text-base mx-auto flex items-center justify-center space-x-2"
                 >
-                  <span>🌬️ Thổi Tắt Tất Cả Nến & Ước</span>
+                  <span>{buttonBlowText}</span>
                 </button>
               ) : (
                 <div className="p-4 bg-[#fbcfe8] rounded-2xl border-2 border-[#32302c] shadow-[3px_3px_0px_#32302c] font-bold text-[#32302c] text-sm animate-bounce">
-                  ✨ Nến đã được thổi tắt! Nguyện cầu ước mơ của Công Chúa thành hiện thực! ✨
+                  {wishMessage}
                 </div>
               )}
 
@@ -1303,7 +1324,7 @@
                   onClick={onNext}
                   className="pill-btn w-full justify-center text-sm shadow-md mt-2"
                 >
-                  <span>Xem Lời Chúc & Viết Lời Chúc ❤️</span>
+                  <span>{buttonNextText}</span>
                 </button>
               )}
             </div>
@@ -1586,8 +1607,9 @@
                 { id: 'letter', label: 'Thư Tình' },
                 { id: 'photos', label: 'Album Ảnh' },
                 { id: 'playlist', label: 'Âm Nhạc' },
-                { id: 'wishwall', label: 'Lời Chúc (Cảnh 9)' },
-                { id: 'surprise', label: 'Báu Vật & Cuối' }
+                { id: 'cake', label: '🎂 Bánh Sinh Nhật' },
+                { id: 'wishwall', label: 'Lời Chúc' },
+                { id: 'surprise', label: 'Báu Vật' }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -2020,7 +2042,128 @@
                 </div>
               )}
 
-              {/* TAB 5: WISH WALL (SCENE 9) */}
+              {/* TAB 5: BIRTHDAY CAKE */}
+              {activeTab === 'cake' && (
+                <div className="space-y-4">
+                  <div className="p-3 bg-purple-900/40 rounded-xl border border-pink-400/30 text-xs text-pink-200 leading-relaxed">
+                    🎂 <strong>Chỉnh Sửa Bánh Sinh Nhật:</strong> Bạn có thể tùy chỉnh Tiêu đề, Hướng dẫn, Dòng chữ trên bánh, Tuổi, Ngày sinh và Lời chúc xuất hiện khi thổi hết 6 ngọn nến!
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Tiêu Đề Bánh Sinh Nhật</label>
+                      <input
+                        type="text"
+                        value={(edited.cake && edited.cake.title) || "Bánh Sinh Nhật Hoàng Gia"}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          cake: { ...(edited.cake || {}), title: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400 font-bold text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Dòng Hướng Dẫn Dưới Tiêu Đề</label>
+                      <input
+                        type="text"
+                        value={(edited.cake && edited.cake.subtitle) || "Chạm vào từng ngọn nến hoặc nhấn nút dưới đây để thổi nến!"}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          cake: { ...(edited.cake || {}), subtitle: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block font-semibold text-pink-300 mb-1">Huy Hiệu Tuổi Trên Bánh (Top Tier)</label>
+                        <input
+                          type="text"
+                          value={(edited.cake && edited.cake.ageBadgeText) || `Tuổi ${edited.ageNumber || 20}`}
+                          onChange={(e) => setEdited({
+                            ...edited,
+                            cake: { ...(edited.cake || {}), ageBadgeText: e.target.value }
+                          })}
+                          className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400 font-bold"
+                          placeholder="Ví dụ: Tuổi 20"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-semibold text-pink-300 mb-1">Dòng Ngày Sinh / Subtext Bánh</label>
+                        <input
+                          type="text"
+                          value={(edited.cake && edited.cake.dateText) || `✨ ${edited.birthdayDate || '07 Tháng 8'} ✨`}
+                          onChange={(e) => setEdited({
+                            ...edited,
+                            cake: { ...(edited.cake || {}), dateText: e.target.value }
+                          })}
+                          className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400 font-mono"
+                          placeholder="✨ 07 Tháng 8 ✨"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Chữ Tầng Dưới Bánh (Main Text)</label>
+                      <input
+                        type="text"
+                        value={(edited.cake && edited.cake.mainText) || `Happy Birthday ${edited.recipientName || 'Công Chúa'}!`}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          cake: { ...(edited.cake || {}), mainText: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400 font-bold text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-semibold text-pink-300 mb-1">Thông Điệp Lời Chúc Khi Thổi Tắt Cả 6 Nến</label>
+                      <textarea
+                        rows={2}
+                        value={(edited.cake && edited.cake.wishMessage) || "✨ Nến đã được thổi tắt! Nguyện cầu ước mơ của Công Chúa thành hiện thực! ✨"}
+                        onChange={(e) => setEdited({
+                          ...edited,
+                          cake: { ...(edited.cake || {}), wishMessage: e.target.value }
+                        })}
+                        className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block font-semibold text-pink-300 mb-1">Nút Thổi Nến</label>
+                        <input
+                          type="text"
+                          value={(edited.cake && edited.cake.buttonBlowText) || "🌬️ Thổi Tắt Tất Cả Nến & Ước"}
+                          onChange={(e) => setEdited({
+                            ...edited,
+                            cake: { ...(edited.cake || {}), buttonBlowText: e.target.value }
+                          })}
+                          className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-semibold text-pink-300 mb-1">Nút Chuyển sang Tường Lời Chúc</label>
+                        <input
+                          type="text"
+                          value={(edited.cake && edited.cake.buttonNextText) || "Xem Lời Chúc & Viết Lời Chúc ❤️"}
+                          onChange={(e) => setEdited({
+                            ...edited,
+                            cake: { ...(edited.cake || {}), buttonNextText: e.target.value }
+                          })}
+                          className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-pink-400"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 6: WISH WALL */}
               {activeTab === 'wishwall' && (
                 <div className="space-y-4">
                   <div className="p-3 bg-purple-900/40 rounded-xl border border-yellow-400/30 text-xs text-yellow-200 leading-relaxed">
@@ -2320,7 +2463,7 @@
         }
       };
 
-      const totalScenes = 10;
+      const totalScenes = 9;
 
       return (
         <div className="min-h-screen relative overflow-hidden">
@@ -2399,13 +2542,6 @@
             )}
 
             {currentScene === 8 && (
-              <EmotionalEnding
-                config={config}
-                onNext={() => setCurrentScene(9)}
-              />
-            )}
-
-            {currentScene === 9 && (
               <WishWall
                 config={config}
                 onRestart={() => setCurrentScene(0)}
