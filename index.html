@@ -963,6 +963,33 @@
       return url;
     }
 
+    // Helper function to resolve Google Drive & Dropbox image URLs into direct web-viewable links
+    function getDirectImageUrl(url) {
+      if (!url || typeof url !== 'string') return '';
+      let trimmed = url.trim();
+
+      // Convert Google Drive share / view links to direct web display link
+      // e.g. https://drive.google.com/file/d/1Db-6Ro0gvixeo7f3PHkJmto0wEBwUw-j/view?usp=drive_link
+      // -> https://lh3.googleusercontent.com/d/1Db-6Ro0gvixeo7f3PHkJmto0wEBwUw-j
+      if (trimmed.includes('drive.google.com') || trimmed.includes('lh3.googleusercontent.com')) {
+        const fileIdMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || 
+                            trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/) ||
+                            trimmed.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (fileIdMatch && fileIdMatch[1]) {
+          return `https://lh3.googleusercontent.com/d/${fileIdMatch[1]}`;
+        }
+      }
+
+      // Convert Dropbox image links to direct content view
+      if (trimmed.includes('dropbox.com')) {
+        let direct = trimmed.replace('dl=0', 'raw=1').replace('dl=1', 'raw=1');
+        direct = direct.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+        return direct;
+      }
+
+      return trimmed;
+    }
+
     // --- SCENE 5: MUSIC PLAYER (Playful Castle Variation - Soft Pastel Pink Theme) ---
     function MusicPlayer({ onNext, config }) {
       const [isPlaying, setIsPlaying] = useState(false);
@@ -1076,7 +1103,7 @@
             <div className="relative w-48 h-48 mx-auto mb-6">
               <div className={`w-full h-full rounded-full bg-[#32302c] border-4 border-[#fbcfe8] p-2 shadow-xl ${isPlaying ? 'animate-spin-slow' : ''}`}>
                 <img
-                  src={track.cover}
+                  src={getDirectImageUrl(track.cover)}
                   alt={track.title}
                   className="w-full h-full object-cover rounded-full border-2 border-[#32302c]"
                 />
@@ -1178,7 +1205,7 @@
                   {!isFlipped ? (
                     <div>
                       <div className="w-full h-48 overflow-hidden rounded-lg mb-3 border-2 border-[#32302c] bg-pink-100/60">
-                        <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                        <img src={getDirectImageUrl(p.image)} alt={p.title} className="w-full h-full object-cover" />
                       </div>
                       <h4 className="font-body font-bold text-base text-[#32302c] mb-0.5">{p.title}</h4>
                       <p className="font-mono text-xs text-[#e85a9c] font-bold">{p.date}</p>
@@ -1342,7 +1369,7 @@
           <div className="max-w-2xl bg-[#fdf2f8] p-8 sm:p-12 rounded-3xl border-3 border-[#32302c] shadow-[8px_8px_0px_#32302c] relative z-10 my-auto">
             <div className="w-28 h-28 rounded-full overflow-hidden mx-auto mb-4 border-3 border-[#32302c] p-1 bg-[#fbcfe8] shadow-[4px_4px_0px_#32302c]">
               <img
-                src={config.finalSurprise.portraitUrl}
+                src={getDirectImageUrl(config.finalSurprise.portraitUrl)}
                 alt={config.recipientName}
                 className="w-full h-full object-cover rounded-full"
               />
@@ -1871,11 +1898,11 @@
 
                       <input
                         type="text"
-                        placeholder="URL hình ảnh (https://...)"
+                        placeholder="URL hình ảnh (Google Drive / Direct Link)"
                         value={photo.image}
                         onChange={(e) => {
                           const updated = [...edited.photos];
-                          updated[idx].image = e.target.value;
+                          updated[idx].image = getDirectImageUrl(e.target.value);
                           setEdited({ ...edited, photos: updated });
                         }}
                         className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
@@ -1990,14 +2017,14 @@
 
                       <div className="grid grid-cols-2 gap-2">
                         <div>
-                          <label className="block text-[11px] text-pink-300 mb-0.5">URL Ảnh Bìa</label>
+                          <label className="block text-[11px] text-pink-300 mb-0.5">URL Ảnh Bìa (Drive / Direct URL)</label>
                           <input
                             type="text"
                             placeholder="URL Ảnh Bìa Đĩa Hát"
                             value={track.cover}
                             onChange={(e) => {
                               const updated = [...edited.playlist];
-                              updated[idx].cover = e.target.value;
+                              updated[idx].cover = getDirectImageUrl(e.target.value);
                               setEdited({ ...edited, playlist: updated });
                             }}
                             className="w-full px-3 py-1.5 rounded-lg bg-purple-900/60 border border-pink-500/20 text-white"
@@ -2333,13 +2360,13 @@
               {activeTab === 'surprise' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block font-semibold text-pink-300 mb-1">URL Ảnh Chân Dung Cuối Thư</label>
+                    <label className="block font-semibold text-pink-300 mb-1">URL Ảnh Chân Dung (Google Drive / Direct URL)</label>
                     <input
                       type="text"
                       value={edited.finalSurprise.portraitUrl}
                       onChange={(e) => setEdited({
                         ...edited,
-                        finalSurprise: { ...edited.finalSurprise, portraitUrl: e.target.value }
+                        finalSurprise: { ...edited.finalSurprise, portraitUrl: getDirectImageUrl(e.target.value) }
                       })}
                       className="w-full px-3.5 py-2 rounded-xl bg-purple-950/80 border border-pink-500/30 text-white focus:outline-none focus:border-yellow-400"
                     />
