@@ -226,7 +226,7 @@
       letter: {
         title: "Gửi Công Chúa Của Lòng Anh!",
         paragraphs: [
-          "Chúc mừng sinh nhật \"Công Chúa\" thêm một tuổi mới! \nChúc em tuổi mới bớt ăn hiếp \"cục nợ\" này lại một chút, chúc em luôn vui vẻ, cười nhiều, ngày càng xinh đẹp và ngày càng thương anh hơn :))) .\nHôm nay em là nhất, muốn đi đâu, ăn gì cứ nói anh, anh thầu tất! :V\nHappy birthday my girl! <3"
+          "Chúc mừng sinh nhật \"Công Chúa\" thêm một tuổi mới! \nChúc em tuổi mới bớt ăn hiếp \"cục nợ\" này lại một chút nà, chúc em luôn vui vẻ, cười nhiều, ngày càng xinh đẹp và ngày càng thương anh hơn :))) .\nHôm nay em là nhất, muốn đi đâu, ăn gì cứ nói anh, anh thầu tất! :V\nHappy birthday my girl! <3"
         ],
         closing: "Yêu em nhất trên đời! <3",
         signature: "Yours Forever & Always ❤️",
@@ -2367,7 +2367,7 @@
 
       // Persistent Configuration in LocalStorage
       const [config, setConfig] = useState(() => {
-        const saved = localStorage.getItem('royal_birthday_config_v4');
+        const saved = localStorage.getItem('royal_birthday_config_v5');
         if (saved) {
           try { return JSON.parse(saved); } catch (e) {}
         }
@@ -2376,12 +2376,13 @@
 
       const handleSaveConfig = (newConfig) => {
         setConfig(newConfig);
-        localStorage.setItem('royal_birthday_config_v4', JSON.stringify(newConfig));
+        localStorage.setItem('royal_birthday_config_v5', JSON.stringify(newConfig));
       };
 
       const handleResetDefault = () => {
         if (confirm("Khôi phục toàn bộ cấu hình mặc định ban đầu?")) {
           setConfig(defaultBirthdayConfig);
+          localStorage.removeItem('royal_birthday_config_v5');
           localStorage.removeItem('royal_birthday_config_v4');
           localStorage.removeItem('royal_birthday_config_v3');
           localStorage.removeItem('royal_birthday_config');
