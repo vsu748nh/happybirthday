@@ -2384,26 +2384,10 @@
 
       // Persistent Configuration in LocalStorage
       const [config, setConfig] = useState(() => {
-        const saved = localStorage.getItem('royal_birthday_config_v6') || 
-                      localStorage.getItem('royal_birthday_config_v5') || 
-                      localStorage.getItem('royal_birthday_config_v4');
+        const saved = localStorage.getItem('royal_birthday_config_v7');
         if (saved) {
           try {
-            const parsed = JSON.parse(saved);
-            // If saved config still has old unsplash placeholder photos, migrate to latest default photos
-            if (parsed && Array.isArray(parsed.photos)) {
-              const hasUnsplash = parsed.photos.some(p => p.image && p.image.includes('images.unsplash.com'));
-              if (hasUnsplash || parsed.photos.length < defaultBirthdayConfig.photos.length) {
-                parsed.photos = defaultBirthdayConfig.photos;
-              }
-            }
-            // Ensure playlist is up to date
-            if (parsed && Array.isArray(parsed.playlist)) {
-              if (parsed.playlist.length < defaultBirthdayConfig.playlist.length) {
-                parsed.playlist = defaultBirthdayConfig.playlist;
-              }
-            }
-            return parsed;
+            return JSON.parse(saved);
           } catch (e) {}
         }
         return defaultBirthdayConfig;
@@ -2411,12 +2395,13 @@
 
       const handleSaveConfig = (newConfig) => {
         setConfig(newConfig);
-        localStorage.setItem('royal_birthday_config_v6', JSON.stringify(newConfig));
+        localStorage.setItem('royal_birthday_config_v7', JSON.stringify(newConfig));
       };
 
       const handleResetDefault = () => {
         if (confirm("Khôi phục toàn bộ cấu hình mặc định ban đầu?")) {
           setConfig(defaultBirthdayConfig);
+          localStorage.removeItem('royal_birthday_config_v7');
           localStorage.removeItem('royal_birthday_config_v6');
           localStorage.removeItem('royal_birthday_config_v5');
           localStorage.removeItem('royal_birthday_config_v4');
